@@ -1,0 +1,34 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../viewmodels/app_state.dart';
+
+class TimeRangeFilter extends StatelessWidget {
+  const TimeRangeFilter({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final appState = context.watch<AppState>();
+
+    return DropdownButtonFormField<TimeRange>(
+      value: appState.timeRange,
+      isDense: true,
+      decoration: InputDecoration(
+        labelText: 'Time Range',
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      ),
+      items: TimeRange.presets.map((range) => DropdownMenuItem<TimeRange>(
+            value: range,
+            child: Text(range.label),
+          )).toList(),
+      onChanged: (value) {
+        if (value != null) {
+          appState.timeRange = value;
+        }
+      },
+    );
+  }
+}

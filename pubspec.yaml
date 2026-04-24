@@ -1,0 +1,38 @@
+name: flutter_vibe_helper
+description: A cross-platform dashboard for Mistral Vibe CLI analytics
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Core
+  provider: ^6.1.1
+  
+  # UI
+  flutter_awesome_buttons: ^1.0.0
+  
+  # Charts
+  fl_chart: ^0.63.0
+  
+  # File system
+  path: ^1.8.3
+  path_provider: ^2.1.1
+  file_picker: ^5.3.3
+
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/

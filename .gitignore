@@ -1,0 +1,49 @@
+# Dart
+*.dart_js_
+.dart_tool/
+
+# Flutter
+*.lock
+*.freezed.dart
+.build/
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# VSCode
+.vscode/
+
+# Android
+android/app/debug.keystore
+android/.idea/
+android/.gradle/
+android/build/
+
+# iOS
+ios/.vscode/
+ios/.idea/
+ios/build/
+ios/Pods/
+ios/Flutter/Flutter.podspec
+
+# Linux
+linux/.idea/
+linux/build/
+
+# macOS
+macos/.idea/
+macos/build/
+
+# Windows
+windows/.idea/
+windows/build/
+
+# Web
+web/.idea/
+web/build/
+
+# Logs
+*.log
