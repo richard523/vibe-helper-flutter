@@ -6,6 +6,11 @@
 *.lock
 *.freezed.dart
 .build/
+.build.log
+flutter_assets/
+
+# Generated plugin dependencies
+.flutter-plugins-dependencies
 
 # IDE
 .idea/
@@ -47,3 +52,6 @@ web/build/
 
 # Logs
 *.log
+
+# Build outputs
+/build/
