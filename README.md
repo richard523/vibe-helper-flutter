@@ -37,6 +37,42 @@ flutter build ios
 flutter build web
 ```
 
+## Installation
+
+### Linux (Standalone App)
+
+#### From GitHub Releases
+1. Download `flutter_vibe_helper-linux-x64.tar.gz` from [Releases](https://github.com/richard523/vibe-helper-flutter/releases)
+2. Extract the archive:
+   ```bash
+   tar -xzvf flutter_vibe_helper-linux-x64.tar.gz
+   ```
+3. Run the app:
+   ```bash
+   cd flutter_vibe_helper
+   ./run.sh
+   ```
+   Or double-click `run.sh` in your file manager (ensure it has execute permissions).
+
+#### Install System-Wide (Optional)
+```bash
+# Copy to /opt
+sudo cp -r flutter_vibe_helper /opt/
+
+# Install desktop entry for application menu
+sudo cp flutter_vibe_helper/flutter_vibe_helper.desktop /usr/share/applications/
+
+# Now you can run from terminal or find it in your app menu
+flutter_vibe_helper
+```
+
+### Windows
+
+#### From GitHub Releases
+1. Download `flutter_vibe_helper-windows-x64.zip` from [Releases](https://github.com/richard523/vibe-helper-flutter/releases)
+2. Extract the ZIP file
+3. Double-click `run.bat` or `flutter_vibe_helper.exe`
+
 ## Project Structure
 
 ```

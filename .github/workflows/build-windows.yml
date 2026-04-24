@@ -23,6 +23,12 @@ jobs:
       - name: Enable Windows desktop
         run: flutter config --enable-windows-desktop
 
+      - name: Create Windows project if missing
+        run: |
+          if (-not (Test-Path windows)) {
+            flutter create --platforms windows .
+          }
+
       - name: Get dependencies
         run: flutter pub get
 
@@ -35,7 +41,8 @@ jobs:
       - name: Create artifact
         run: |
           mkdir -Force release
-          Copy-Item -Path build\windows\x64\runner\Release\* -Destination release\ -Recurse
+          Copy-Item -Path build\windows\x64\runner\Release\* -Destination release\flutter_vibe_helper -Recurse
+          Set-Content -Path release\flutter_vibe_helper\run.bat -Value "@echo off`r`nstart /b flutter_vibe_helper.exe"
           Compress-Archive -Path release\* -DestinationPath flutter_vibe_helper-windows-x64.zip
 
       - name: Upload artifact
