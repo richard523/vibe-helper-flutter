@@ -7,6 +7,7 @@ import '../widgets/token_card.dart';
 import '../widgets/session_list.dart';
 import '../widgets/project_filter.dart';
 import '../widgets/time_range_filter.dart';
+import '../widgets/tool_usage_card.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -23,70 +24,70 @@ class DashboardScreen extends StatelessWidget {
             icon: const Icon(Icons.refresh),
             onPressed: () => appState.loadAll(),
           ),
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              // TODO: Navigate to settings
-            },
-          ),
         ],
       ),
-      body: appState.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
+      body: Column(
+        children: [
+          // Filters
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
               children: [
-                // Filters
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ProjectFilter(),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: TimeRangeFilter(),
-                      ),
-                    ],
-                  ),
-                ),
+                const Expanded(child: ProjectFilter()),
+                const SizedBox(width: 16),
+                const Expanded(child: TimeRangeFilter()),
+              ],
+            ),
+          ),
 
-                // Stats Cards
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: CostCard(
-                          totalCost: appState.totalCost,
-                          totalSessions: appState.totalSessions,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: TokenCard(
-                          totalTokens: appState.totalTokens,
-                          avgTokensPerSecond: appState.averageTokensPerSecond,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
-                // Session List
+          // Stats Cards Row 1
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: [
                 Expanded(
-                  child: SessionList(
-                    sessions: appState.filteredSessions,
-                    onSessionSelected: (session) {
-                      appState.selectedSession = session;
-                      // TODO: Navigate to session detail
-                    },
+                  child: CostCard(
+                    totalCost: appState.totalCost,
+                    totalSessions: appState.totalSessions,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: TokenCard(
+                    totalTokens: appState.totalTokens,
+                    avgTokensPerSecond: appState.averageTokensPerSecond,
                   ),
                 ),
               ],
             ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Stats Cards Row 2
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ToolUsageCard(
+              agreed: appState.toolCallBreakdown['agreed'] ?? 0,
+              rejected: appState.toolCallBreakdown['rejected'] ?? 0,
+              failed: appState.toolCallBreakdown['failed'] ?? 0,
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Session List
+          Expanded(
+            child: SessionList(
+              sessions: appState.filteredSessions,
+              onSessionSelected: (session) {
+                appState.selectedSession = session;
+                Navigator.pushNamed(context, '/session');
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

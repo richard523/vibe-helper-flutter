@@ -104,7 +104,7 @@ class Skill {
     required this.directoryPath,
   });
 
-  String get skillFilePath => '${directoryPath}/SKILL.md';
+  String get skillFilePath => '$directoryPath/SKILL.md';
 
   static Skill parse(String fileContent, String directoryName, String directoryPath) {
     final content = fileContent.trim();

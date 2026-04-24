@@ -10,7 +10,7 @@ class TimeRangeFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     final appState = context.watch<AppState>();
 
-    return DropdownButtonFormField<TimeRange>(
+    return DropdownButtonFormField<TimeRangeOption>(
       value: appState.timeRange,
       isDense: true,
       decoration: InputDecoration(
@@ -20,7 +20,7 @@ class TimeRangeFilter extends StatelessWidget {
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
-      items: TimeRange.presets.map((range) => DropdownMenuItem<TimeRange>(
+      items: TimeRangeOption.presets.map((range) => DropdownMenuItem<TimeRangeOption>(
             value: range,
             child: Text(range.label),
           )).toList(),

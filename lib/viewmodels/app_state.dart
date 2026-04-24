@@ -8,60 +8,57 @@ import '../services/skill_loader.dart';
 import '../utils/vibe_paths.dart';
 import '../utils/file_watcher.dart';
 
-class TimeRange {
+// Simple enum-like class for time range filter
+class TimeRangeOption {
   final String label;
-  final DateTime? startDate;
-  final DateTime? endDate;
+  final int? daysAgo;
 
-  const TimeRange({
+  const TimeRangeOption._({
     required this.label,
-    this.startDate,
-    this.endDate,
+    this.daysAgo,
   });
 
-  static TimeRange get today {
+  // Singleton instances
+  static const allTime = TimeRangeOption._(label: 'All Time');
+  static const today = TimeRangeOption._(label: 'Today', daysAgo: 0);
+  static const last7Days = TimeRangeOption._(label: 'Last 7 Days', daysAgo: 7);
+  static const last30Days = TimeRangeOption._(label: 'Last 30 Days', daysAgo: 30);
+
+  static const List<TimeRangeOption> presets = [today, last7Days, last30Days, allTime];
+
+  // Computed date range
+  DateTime? get startDate {
+    if (daysAgo == null) return null;
     final now = DateTime.now();
-    return TimeRange(
-      label: 'Today',
-      startDate: DateTime(now.year, now.month, now.day),
-      endDate: DateTime(now.year, now.month, now.day, 23, 59, 59),
-    );
+    if (daysAgo == 0) {
+      return DateTime(now.year, now.month, now.day);
+    }
+    return now.subtract(Duration(days: daysAgo!));
   }
 
-  static TimeRange get last7Days {
-    final end = DateTime.now();
-    final start = end.subtract(const Duration(days: 7));
-    return TimeRange(
-      label: 'Last 7 Days',
-      startDate: start,
-      endDate: end,
-    );
+  DateTime? get endDate {
+    if (daysAgo == null) return null;
+    return DateTime.now();
   }
 
-  static TimeRange get last30Days {
-    final end = DateTime.now();
-    final start = end.subtract(const Duration(days: 30));
-    return TimeRange(
-      label: 'Last 30 Days',
-      startDate: start,
-      endDate: end,
-    );
-  }
-
-  static const allTime = TimeRange(label: 'All Time');
-
-  static List<TimeRange> get presets => [today, last7Days, last30Days, allTime];
-
-  TimeRange copyWithCustom(DateTime? startDate, DateTime? endDate) {
-    return TimeRange(
-      label: 'Custom',
-      startDate: startDate,
-      endDate: endDate,
+  TimeRangeOption copyWithCustom(DateTime startDate, DateTime endDate) {
+    return TimeRangeOption._(
+      label: 'Custom ${startDate.toString().substring(0, 10)} - ${endDate.toString().substring(0, 10)}',
+      daysAgo: null,
     );
   }
 
   @override
   String toString() => label;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is TimeRangeOption && other.label == label;
+  }
+
+  @override
+  int get hashCode => label.hashCode;
 }
 
 class AppState with ChangeNotifier {
@@ -79,9 +76,10 @@ class AppState with ChangeNotifier {
       final matchesProject = selectedProject == null || session.projectName == selectedProject;
       
       bool matchesTime = true;
-      if (timeRange.startDate != null) {
+      final start = timeRange.startDate;
+      if (start != null) {
         final end = timeRange.endDate ?? now;
-        matchesTime = session.startTime.isAfter(timeRange.startDate!) && 
+        matchesTime = session.startTime.isAfter(start) && 
                      session.startTime.isBefore(end);
       }
       
@@ -116,9 +114,9 @@ class AppState with ChangeNotifier {
     notifyListeners();
   }
 
-  TimeRange _timeRange = TimeRange.allTime;
-  TimeRange get timeRange => _timeRange;
-  set timeRange(TimeRange value) {
+  TimeRangeOption _timeRange = TimeRangeOption.allTime;
+  TimeRangeOption get timeRange => _timeRange;
+  set timeRange(TimeRangeOption value) {
     _timeRange = value;
     notifyListeners();
   }

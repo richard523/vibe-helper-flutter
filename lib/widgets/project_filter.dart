@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../viewmodels/app_state.dart';
 
 class ProjectFilter extends StatelessWidget {
-  ProjectFilter({super.key});
+  const ProjectFilter({super.key});
 
   @override
   Widget build(BuildContext context) {
