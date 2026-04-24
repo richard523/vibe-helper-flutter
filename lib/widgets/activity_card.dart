@@ -26,10 +26,10 @@ class ActivityCard extends StatelessWidget {
     // Sort sessions by startTime descending (newest first) to ensure most recent appears correctly
     final sortedSessions = [...sessions]..sort((a, b) => b.startTime.compareTo(a.startTime));
     
-    // Group sessions by date for first-session lookup
+    // Group sessions by date (UTC) for first-session lookup
     final sessionsByDate = <DateTime, Session>{};
     for (final session in sortedSessions) {
-      final dateKey = DateTime(session.startTime.year, session.startTime.month, session.startTime.day);
+      final dateKey = DateTime.utc(session.startTime.year, session.startTime.month, session.startTime.day);
       // Keep the first (newest) session for each date
       if (!sessionsByDate.containsKey(dateKey)) {
         sessionsByDate[dateKey] = session;
@@ -98,7 +98,7 @@ class ActivityCard extends StatelessWidget {
               height: 116,
               child: _buildHeatmap(
                 sessionsByDate: sessionsByDate,
-                now: DateTime.now(),
+                now: DateTime.now().toUtc(),
               ),
             ),
           ],
@@ -125,6 +125,7 @@ class ActivityCard extends StatelessWidget {
     required Map<DateTime, Session> sessionsByDate,
     required DateTime now,
   }) {
+    final utcNow = now.toUtc();
     if (sessions.isEmpty) {
       return const Center(
         child: Text(
@@ -134,27 +135,27 @@ class ActivityCard extends StatelessWidget {
       );
     }
 
-    // Get date range
-    final dates = sessions.map((s) => DateTime(s.startTime.year, s.startTime.month, s.startTime.day)).toList();
+    // Get date range - normalize to UTC midnight for consistent date keys
+    final dates = sessions.map((s) => DateTime.utc(s.startTime.year, s.startTime.month, s.startTime.day)).toList();
     final minDate = dates.reduce((a, b) => a.isBefore(b) ? a : b);
     final maxDate = dates.reduce((a, b) => a.isAfter(b) ? a : b);
 
-    // Count sessions per day
+    // Count sessions per day using UTC dates
     final countByDay = <DateTime, int>{};
-    for (final date in dates) {
-      countByDay.update(date, (value) => value + 1, ifAbsent: () => 1);
+    for (final session in sessions) {
+      final dateKey = DateTime.utc(session.startTime.year, session.startTime.month, session.startTime.day);
+      countByDay.update(dateKey, (value) => value + 1, ifAbsent: () => 1);
     }
 
     // Build cells from minDate to maxDate
     final allCells = <DayCell>[];
-    var current = DateTime(minDate.year, minDate.month, minDate.day);
-    final end = DateTime(maxDate.year, maxDate.month, maxDate.day);
+    var current = DateTime.utc(minDate.year, minDate.month, minDate.day);
+    final end = DateTime.utc(maxDate.year, maxDate.month, maxDate.day);
     
     while (current.isBefore(end) || current == end) {
-      final normalized = DateTime(current.year, current.month, current.day);
       allCells.add(DayCell(
-        date: normalized,
-        count: countByDay[normalized] ?? 0,
+        date: current,
+        count: countByDay[current] ?? 0,
       ));
       current = current.add(const Duration(days: 1));
     }
@@ -184,7 +185,7 @@ class ActivityCard extends StatelessWidget {
         spacing: 3,
         children: heatmapWeeks.map((week) => _buildWeekColumn(
           week: week,
-          now: now,
+          now: utcNow,
           sessionsByDate: sessionsByDate,
           onSessionSelected: onSessionSelected,
         )).toList(),

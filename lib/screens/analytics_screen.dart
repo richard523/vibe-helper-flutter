@@ -37,31 +37,38 @@ class AnalyticsScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildOverviewStat(
-                        'Total Cost',
-                        '\$${formatDoubleWithCommas(appState.totalCost, 2)}',
-                        Icons.monetization_on,
-                        Colors.green,
+                      Expanded(
+                        child: _buildOverviewStat(
+                          'Total Cost',
+                          '\$${formatDoubleWithCommas(appState.totalCost, 2)}',
+                          Icons.monetization_on,
+                          Colors.green,
+                        ),
                       ),
-                      _buildOverviewStat(
-                        'Total Tokens',
-                        formatNumberWithCommas(appState.totalTokens),
-                        Icons.text_fields,
-                        Colors.blue,
+                      Expanded(
+                        child: _buildOverviewStat(
+                          'Total Tokens',
+                          formatNumberWithCommas(appState.totalTokens),
+                          Icons.text_fields,
+                          Colors.blue,
+                        ),
                       ),
-                      _buildOverviewStat(
-                        'Sessions',
-                        formatNumberWithCommas(appState.totalSessions),
-                        Icons.history,
-                        Colors.purple,
+                      Expanded(
+                        child: _buildOverviewStat(
+                          'Sessions',
+                          formatNumberWithCommas(appState.totalSessions),
+                          Icons.history,
+                          Colors.purple,
+                        ),
                       ),
-                      _buildOverviewStat(
-                        'Tool Calls',
-                        formatNumberWithCommas(appState.totalToolCalls),
-                        Icons.build,
-                        Colors.orange,
+                      Expanded(
+                        child: _buildOverviewStat(
+                          'Tool Calls',
+                          formatNumberWithCommas(appState.totalToolCalls),
+                          Icons.build,
+                          Colors.orange,
+                        ),
                       ),
                     ],
                   ),

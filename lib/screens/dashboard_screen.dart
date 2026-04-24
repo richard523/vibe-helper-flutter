@@ -82,7 +82,13 @@ class DashboardScreen extends StatelessWidget {
                       Expanded(
                         child: SizedBox(
                           height: 280,
-                          child: ActivityCard(sessions: filteredSessions),
+                          child: ActivityCard(
+                            sessions: filteredSessions,
+                            onSessionSelected: (session) {
+                              appState.selectedSession = session;
+                              Navigator.pushNamed(context, '/session');
+                            },
+                          ),
                         ),
                       ),
                       const SizedBox(width: 16),

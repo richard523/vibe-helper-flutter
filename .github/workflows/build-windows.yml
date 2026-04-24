@@ -1,0 +1,51 @@
+name: Build Windows
+
+on:
+  push:
+    branches: [main, data-to-dashboard]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.2'
+          channel: 'stable'
+
+      - name: Enable Windows desktop
+        run: flutter config --enable-windows-desktop
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build Windows release
+        run: flutter build windows --release
+
+      - name: Create artifact
+        run: |
+          mkdir -Force release
+          Copy-Item -Path build\windows\x64\runner\Release\* -Destination release\ -Recurse
+          Compress-Archive -Path release\* -DestinationPath flutter_vibe_helper-windows-x64.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter_vibe_helper-windows-x64
+          path: flutter_vibe_helper-windows-x64.zip
+          compression-level: 9
+
+      - name: Upload release (on tag)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: flutter_vibe_helper-windows-x64.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

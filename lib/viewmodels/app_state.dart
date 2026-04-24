@@ -72,10 +72,7 @@ class AppState with ChangeNotifier {
 
   List<Session> get filteredSessions {
     final now = DateTime.now();
-    final timeRangeNow = DateTime.now(); // Capture time for consistent date calculations
-    
-    // Compute start and end dates once using consistent time
-    final start = timeRange.startDate; // Uses timeRangeNow internally via getter
+    final start = timeRange.startDate;
     final end = timeRange.endDate ?? now;
     
     return _sessions.where((session) {

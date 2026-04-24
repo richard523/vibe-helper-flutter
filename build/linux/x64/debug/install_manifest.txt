@@ -2,7 +2,6 @@
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/icudtl.dat
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/lib/libdartjni.so
-/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/assets/.gitkeep
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/packages/font_awesome_flutter/lib/fonts/fa-brands-400.ttf
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/packages/font_awesome_flutter/lib/fonts/fa-regular-400.ttf
@@ -16,3 +15,4 @@
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/version.json
+/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
