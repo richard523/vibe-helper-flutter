@@ -24,6 +24,7 @@ class TokenCard extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -76,8 +77,11 @@ class TokenCard extends StatelessWidget {
             // Token type filter tabs
             // (For now, just show the chart with both)
             // TODO: Add filter tabs for Both/Input/Output
-            Expanded(
-              child: _buildTokenBarChart(),
+            Flexible(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 180),
+                child: _buildTokenBarChart(),
+              ),
             ),
           ],
         ),

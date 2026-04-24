@@ -32,7 +32,7 @@ class DashboardScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            spacing: 16,
+            mainAxisSize: MainAxisSize.min,
             children: [
               // Filters row (matches original toolbar)
               SizedBox(
@@ -54,54 +54,62 @@ class DashboardScreen extends StatelessWidget {
 
               if (appState.isLoading)
                 const SizedBox(height: 200, child: Center(child: CircularProgressIndicator()))
-              else ...[
-                // Top row: Cost + Tokens (280px height in original)
-                SizedBox(
-                  height: 280,
-                  child: Row(
-                    spacing: 16,
+              else
+                ...[
+                  // Top row: Cost + Tokens (280px height in original)
+                  Row(
                     children: [
                       Expanded(
-                        child: CostCard(sessions: filteredSessions),
+                        child: SizedBox(
+                          height: 280,
+                          child: CostCard(sessions: filteredSessions),
+                        ),
                       ),
+                      const SizedBox(width: 16),
                       Expanded(
-                        child: TokenCard(sessions: filteredSessions),
+                        child: SizedBox(
+                          height: 280,
+                          child: TokenCard(sessions: filteredSessions),
+                        ),
                       ),
                     ],
                   ),
-                ),
 
-                // Second row: Activity + Tool Usage (280px height in original)
-                SizedBox(
-                  height: 280,
-                  child: Row(
-                    spacing: 16,
+                  // Second row: Activity + Tool Usage (280px height in original)
+                  const SizedBox(height: 16),
+                  Row(
                     children: [
                       Expanded(
-                        child: ActivityCard(sessions: filteredSessions),
+                        child: SizedBox(
+                          height: 280,
+                          child: ActivityCard(sessions: filteredSessions),
+                        ),
                       ),
+                      const SizedBox(width: 16),
                       Expanded(
-                        child: ToolUsageCard(
-                          agreed: appState.toolCallBreakdown['agreed'] ?? 0,
-                          rejected: appState.toolCallBreakdown['rejected'] ?? 0,
-                          failed: appState.toolCallBreakdown['failed'] ?? 0,
-                          succeeded: filteredSessions.fold(
-                            0, (sum, s) => sum + s.stats.toolCallsSucceeded
+                        child: SizedBox(
+                          height: 280,
+                          child: ToolUsageCard(
+                            agreed: appState.toolCallBreakdown['agreed'] ?? 0,
+                            rejected: appState.toolCallBreakdown['rejected'] ?? 0,
+                            failed: appState.toolCallBreakdown['failed'] ?? 0,
+                            succeeded: filteredSessions.fold(
+                              0, (sum, s) => sum + s.stats.toolCallsSucceeded
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                ),
 
-                // Session list
-                SessionList(
-                  sessions: filteredSessions,
-                  onSessionSelected: (session) {
-                    appState.selectedSession = session;
-                    Navigator.pushNamed(context, '/session');
-                  },
-                ),
+                  // Session list
+                  SessionList(
+                    sessions: filteredSessions,
+                    onSessionSelected: (session) {
+                      appState.selectedSession = session;
+                      Navigator.pushNamed(context, '/session');
+                    },
+                  ),
               ],
             ],
           ),

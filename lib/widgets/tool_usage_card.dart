@@ -31,7 +31,9 @@ class ToolUsageCard extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
+            // Header
             Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
@@ -82,12 +84,15 @@ class ToolUsageCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
+            
+            // Chart area
             if (chartData.isNotEmpty)
-              Expanded(
-                child: Column(
-                  children: [
-                    // Donut chart
-                    Expanded(
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 146,
+                    child: Center(
                       child: PieChart(
                         PieChartData(
                           sections: chartData.map((item) =>
@@ -103,9 +108,12 @@ class ToolUsageCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    // Legend
-                    Wrap(
+                  ),
+                  const SizedBox(height: 8),
+                  // Legend
+                  SizedBox(
+                    width: double.infinity,
+                    child: Wrap(
                       spacing: 16,
                       runSpacing: 4,
                       children: chartData.map((item) => Row(
@@ -130,8 +138,8 @@ class ToolUsageCard extends StatelessWidget {
                         ],
                       )).toList(),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
           ],
         ),

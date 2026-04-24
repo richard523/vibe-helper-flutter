@@ -13,6 +13,6 @@
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/shaders/stretch_effect.frag
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/NativeAssetsManifest.json
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin
+/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
 /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/version.json
-/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z

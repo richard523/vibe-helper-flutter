@@ -21,6 +21,7 @@ class AnalyticsScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               // Total Stats
               const Text(
@@ -77,18 +78,18 @@ class AnalyticsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              SizedBox(
-                height: 200,
-                child: _buildCostByProjectChart(appState.costByProject),
-              ),
+              _buildCostByProjectChart(appState.costByProject),
 
               const SizedBox(height: 24),
 
               // Tool Usage
-              ToolUsageCard(
-                agreed: appState.toolCallBreakdown['agreed'] ?? 0,
-                rejected: appState.toolCallBreakdown['rejected'] ?? 0,
-                failed: appState.toolCallBreakdown['failed'] ?? 0,
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: double.infinity),
+                child: ToolUsageCard(
+                  agreed: appState.toolCallBreakdown['agreed'] ?? 0,
+                  rejected: appState.toolCallBreakdown['rejected'] ?? 0,
+                  failed: appState.toolCallBreakdown['failed'] ?? 0,
+                ),
               ),
 
               const SizedBox(height: 24),
@@ -147,14 +148,19 @@ class AnalyticsScreen extends StatelessWidget {
 
   Widget _buildCostByProjectChart(List<MapEntry<String, double>> data) {
     if (data.isEmpty) {
-      return const Card(
-        child: Center(
-          child: Text('No data available'),
+      return const SizedBox(
+        height: 200,
+        child: Card(
+          child: Center(
+            child: Text('No data available'),
+          ),
         ),
       );
     }
 
-    return BarChart(
+    return SizedBox(
+      height: 200,
+      child: BarChart(
       BarChartData(
         alignment: BarChartAlignment.spaceAround,
         maxY: data.first.value + (data.first.value * 0.1),
@@ -204,6 +210,7 @@ class AnalyticsScreen extends StatelessWidget {
               ),
             )
             .toList(),
+      ),
       ),
     );
   }

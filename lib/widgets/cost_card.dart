@@ -19,6 +19,7 @@ class CostCard extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -68,9 +69,12 @@ class CostCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            // Cumulative cost chart
-            Expanded(
-              child: _buildCumulativeChart(),
+            // Cumulative cost chart - fixed height
+            Flexible(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 180),
+                child: _buildCumulativeChart(),
+              ),
             ),
           ],
         ),

@@ -23,6 +23,7 @@ class ActivityCard extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -73,10 +74,13 @@ class ActivityCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             // Heatmap
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: _buildHeatmap(),
+            Flexible(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 200),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: _buildHeatmap(),
+                ),
               ),
             ),
           ],
@@ -121,7 +125,7 @@ class ActivityCard extends StatelessWidget {
     }
 
     // Build heatmap grid (7 columns = week)
-    // Start from minDate''s week
+    // Start from minDate's week
     final startOfWeek = minDate.subtract(Duration(days: minDate.weekday - 1));
     
     final List<List<int>> weeks = [];
