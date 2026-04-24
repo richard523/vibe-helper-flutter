@@ -23,11 +23,21 @@ jobs:
       - name: Enable Windows desktop
         run: flutter config --enable-windows-desktop
 
+      - name: Install ImageMagick
+        run: choco install magick -y
+
       - name: Create Windows project if missing
         run: |
           if (-not (Test-Path windows)) {
             flutter create --platforms windows .
           }
+
+      - name: Create resources directory and convert icon
+        run: |
+          if (-not (Test-Path windows/runner/resources)) {
+            New-Item -ItemType Directory -Path windows/runner/resources -Force
+          }
+          magick assets\vibe-helper-icon.png -define icon:auto-resize=16,32,48,64,128,256 windows/runner/resources/app_icon.ico
 
       - name: Get dependencies
         run: flutter pub get
@@ -42,8 +52,9 @@ jobs:
         run: |
           mkdir -Force release
           Copy-Item -Path build\windows\x64\runner\Release\* -Destination release\flutter_vibe_helper -Recurse
+          Copy-Item -Path assets\vibe-helper-icon.png -Destination release\flutter_vibe_helper\icon.png
           Set-Content -Path release\flutter_vibe_helper\run.bat -Value "@echo off`r`nstart /b flutter_vibe_helper.exe"
-          Compress-Archive -Path release\* -DestinationPath flutter_vibe_helper-windows-x64.zip
+          Compress-Archive -Path release\flutter_vibe_helper\* -DestinationPath flutter_vibe_helper-windows-x64.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

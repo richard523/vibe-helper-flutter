@@ -62,6 +62,9 @@ sudo cp -r flutter_vibe_helper /opt/
 # Install desktop entry for application menu
 sudo cp flutter_vibe_helper/flutter_vibe_helper.desktop /usr/share/applications/
 
+# Install icon for application menu (optional)
+sudo cp flutter_vibe_helper/icon.png /usr/share/icons/hicolor/256x256/apps/flutter_vibe_helper.png
+
 # Now you can run from terminal or find it in your app menu
 flutter_vibe_helper
 ```

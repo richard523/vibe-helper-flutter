@@ -41,8 +41,9 @@ jobs:
         run: |
           mkdir -p release
           cp -r build/linux/x64/release/bundle release/flutter_vibe_helper
+          cp assets/vibe-helper-icon.png release/flutter_vibe_helper/icon.png
           chmod +x release/flutter_vibe_helper/flutter_vibe_helper
-          printf '[Desktop Entry]\nName=Flutter Vibe Helper\nExec=flutter_vibe_helper\nType=Application\nCategories=Utility;\nTerminal=false\n' > release/flutter_vibe_helper/flutter_vibe_helper.desktop
+          printf '[Desktop Entry]\nName=Flutter Vibe Helper\nExec=flutter_vibe_helper\nIcon=icon.png\nType=Application\nCategories=Utility;\nTerminal=false\n' > release/flutter_vibe_helper/flutter_vibe_helper.desktop
           printf '#!/bin/bash\nSCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"\nexec "$SCRIPT_DIR/flutter_vibe_helper" "$@"\n' > release/flutter_vibe_helper/run.sh
           chmod +x release/flutter_vibe_helper/run.sh
           tar -czvf flutter_vibe_helper-linux-x64.tar.gz -C release flutter_vibe_helper
