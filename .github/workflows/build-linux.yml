@@ -37,6 +37,11 @@ jobs:
       - name: Build Linux release
         run: flutter build linux --release
 
+      - name: Make executable and create desktop file
+        run: |
+          chmod +x build/linux/x64/release/bundle/flutter_vibe_helper
+          printf '[Desktop Entry]\nName=Flutter Vibe Helper\nExec=flutter_vibe_helper\nIcon=flutter_vibe_helper\nType=Application\nCategories=Utility;\nTerminal=false\n' > build/linux/x64/release/bundle/flutter_vibe_helper.desktop
+
       - name: Create artifact
         run: |
           mkdir -p release
