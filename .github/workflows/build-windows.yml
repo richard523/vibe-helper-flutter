@@ -24,7 +24,7 @@ jobs:
         run: flutter config --enable-windows-desktop
 
       - name: Install ImageMagick
-        run: choco install magick -y
+        run: choco install imagemagick -y
 
       - name: Create Windows project if missing
         run: |
