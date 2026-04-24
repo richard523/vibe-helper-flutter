@@ -26,6 +26,9 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Clean build directory
+        run: flutter clean
+
       - name: Build Linux release
         run: flutter build linux --release
 
