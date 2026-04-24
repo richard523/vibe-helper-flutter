@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 import '../models/session.dart';
 import '../utils/formatters.dart';
 
 class ActivityCard extends StatelessWidget {
   final List<Session> sessions;
+  final Function(Session)? onSessionSelected;
 
-  const ActivityCard({super.key, required this.sessions});
+  const ActivityCard({
+    super.key,
+    required this.sessions,
+    this.onSessionSelected,
+  });
 
   int get sessionCount => sessions.length;
   Duration get totalDuration => Duration(
@@ -19,13 +23,26 @@ class ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Sort sessions by startTime descending (newest first) to ensure most recent appears correctly
+    final sortedSessions = [...sessions]..sort((a, b) => b.startTime.compareTo(a.startTime));
+    
+    // Group sessions by date for first-session lookup
+    final sessionsByDate = <DateTime, Session>{};
+    for (final session in sortedSessions) {
+      final dateKey = DateTime(session.startTime.year, session.startTime.month, session.startTime.day);
+      // Keep the first (newest) session for each date
+      if (!sessionsByDate.containsKey(dateKey)) {
+        sessionsByDate[dateKey] = session;
+      }
+    }
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: [
+            // Header
             Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
@@ -74,14 +91,14 @@ class ActivityCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            // Heatmap
-            Flexible(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 200),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: _buildHeatmap(),
-                ),
+            
+            // Heatmap - horizontal scroll, weeks as vertical columns
+            // Height: 7 cells * 14px + 6 spacings * 3px = 116px
+            SizedBox(
+              height: 116,
+              child: _buildHeatmap(
+                sessionsByDate: sessionsByDate,
+                now: DateTime.now(),
               ),
             ),
           ],
@@ -104,7 +121,10 @@ class ActivityCard extends StatelessWidget {
     }
   }
 
-  Widget _buildHeatmap() {
+  Widget _buildHeatmap({
+    required Map<DateTime, Session> sessionsByDate,
+    required DateTime now,
+  }) {
     if (sessions.isEmpty) {
       return const Center(
         child: Text(
@@ -125,65 +145,110 @@ class ActivityCard extends StatelessWidget {
       countByDay.update(date, (value) => value + 1, ifAbsent: () => 1);
     }
 
-    // Build heatmap grid (7 columns = week)
-    // Start from minDate's week
-    final startOfWeek = minDate.subtract(Duration(days: minDate.weekday - 1));
-    
-    final List<List<int>> weeks = [];
-    var current = startOfWeek;
-    final end = maxDate;
-    
-    var currentWeek = <int>[];
+    // Build cells from minDate to maxDate
+    final allCells = <DayCell>[];
+    var current = DateTime(minDate.year, minDate.month, minDate.day);
+    final end = DateTime(maxDate.year, maxDate.month, maxDate.day);
     
     while (current.isBefore(end) || current == end) {
-      final dayCount = countByDay[current] ?? 0;
-      currentWeek.add(dayCount);
-      
-      // End of week
-      if (current.weekday == DateTime.sunday) {
-        // Pad week to 7 days
-        while (currentWeek.length < 7) {
-          currentWeek.add(-1); // Padding
-        }
-        weeks.add(currentWeek);
-        currentWeek = [];
-      }
-      
+      final normalized = DateTime(current.year, current.month, current.day);
+      allCells.add(DayCell(
+        date: normalized,
+        count: countByDay[normalized] ?? 0,
+      ));
       current = current.add(const Duration(days: 1));
     }
-    
-    // Add last partial week
-    if (currentWeek.isNotEmpty) {
-      while (currentWeek.length < 7) {
-        currentWeek.add(-1);
+
+    // Pad start to align to Sunday (weekday 7)
+    // In Dart: weekday 1=Mon, 2=Tue, ..., 7=Sun
+    final startWeekday = minDate.weekday; // 1-7
+    final paddingDays = (startWeekday % 7); // Days to prepend to reach Sunday
+    final paddedCells = List.filled(paddingDays, const DayCell(date: null, count: -1)) + allCells;
+
+    // Split into weeks of 7 days
+    final heatmapWeeks = <List<DayCell>>[];
+    for (var i = 0; i < paddedCells.length; i += 7) {
+      final weekEnd = (i + 7) < paddedCells.length ? i + 7 : paddedCells.length;
+      final week = paddedCells.sublist(i, weekEnd);
+      // Pad to 7 days
+      while (week.length < 7) {
+        week.add(const DayCell(date: null, count: -1));
       }
-      weeks.add(currentWeek);
+      heatmapWeeks.add(week);
     }
 
-    return Row(
-      spacing: 3,
-      children: weeks.map((week) => Column(
+    // Build week column widgets
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
         spacing: 3,
-        mainAxisSize: MainAxisSize.min,
-        children: week.map((count) => Container(
+        children: heatmapWeeks.map((week) => _buildWeekColumn(
+          week: week,
+          now: now,
+          sessionsByDate: sessionsByDate,
+          onSessionSelected: onSessionSelected,
+        )).toList(),
+      ),
+    );
+  }
+
+  Widget _buildWeekColumn({
+    required List<DayCell> week,
+    required DateTime now,
+    required Map<DateTime, Session> sessionsByDate,
+    Function(Session)? onSessionSelected,
+  }) {
+    return Column(
+      spacing: 3,
+      mainAxisSize: MainAxisSize.min,
+      children: week.map((cell) {
+        // Don't draw box for future days or padding
+        if (cell.count < 0 || (cell.date != null && cell.date!.isAfter(now))) {
+          return Container(width: 14, height: 14);
+        }
+        
+        // Find first session for this date
+        final session = cell.date != null ? sessionsByDate[cell.date] : null;
+        
+        if (session != null && onSessionSelected != null) {
+          return GestureDetector(
+            onTap: () => onSessionSelected(session),
+            child: Container(
+              width: 14,
+              height: 14,
+              decoration: BoxDecoration(
+                color: _colorForCount(cell.count),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          );
+        }
+        
+        return Container(
           width: 14,
           height: 14,
           decoration: BoxDecoration(
-            color: _colorForCount(count),
+            color: _colorForCount(cell.count),
             borderRadius: BorderRadius.circular(2),
           ),
-          child: count >= 0 ? null : null,
-        )).toList(),
-      )).toList(),
+        );
+      }).toList(),
     );
   }
 
   Color _colorForCount(int count) {
     if (count < 0) return Colors.transparent;
-    if (count == 0) return Color(0xFF10B981).withOpacity(0.08);
-    if (count == 1) return Color(0xFF10B981).withOpacity(0.3);
-    if (count <= 3) return Color(0xFF10B981).withOpacity(0.5);
-    if (count <= 6) return Color(0xFF10B981).withOpacity(0.7);
-    return Color(0xFF10B981);
+    if (count == 0) return const Color(0xFF10B981).withOpacity(0.08);
+    if (count == 1) return const Color(0xFF10B981).withOpacity(0.3);
+    if (count <= 3) return const Color(0xFF10B981).withOpacity(0.5);
+    if (count <= 6) return const Color(0xFF10B981).withOpacity(0.7);
+    return const Color(0xFF10B981);
   }
+}
+
+class DayCell {
+  final DateTime? date;
+  final int count;
+
+  const DayCell({required this.date, required this.count});
 }

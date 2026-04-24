@@ -72,15 +72,19 @@ class AppState with ChangeNotifier {
 
   List<Session> get filteredSessions {
     final now = DateTime.now();
+    final timeRangeNow = DateTime.now(); // Capture time for consistent date calculations
+    
+    // Compute start and end dates once using consistent time
+    final start = timeRange.startDate; // Uses timeRangeNow internally via getter
+    final end = timeRange.endDate ?? now;
+    
     return _sessions.where((session) {
       final matchesProject = selectedProject == null || session.projectName == selectedProject;
       
       bool matchesTime = true;
-      final start = timeRange.startDate;
       if (start != null) {
-        final end = timeRange.endDate ?? now;
-        matchesTime = session.startTime.isAfter(start) && 
-                     session.startTime.isBefore(end);
+        matchesTime = (session.startTime.isAfter(start) || session.startTime == start) &&
+                     (session.startTime.isBefore(end) || session.startTime == end);
       }
       
       return matchesProject && matchesTime;

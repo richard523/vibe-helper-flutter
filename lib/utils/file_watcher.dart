@@ -8,6 +8,7 @@ class FileWatcher {
   final FileChangeCallback onChange;
   Timer? _timer;
   DateTime? _lastModification;
+  Set<String>? _lastEntries;
   bool _started = false;
 
   FileWatcher({
@@ -43,12 +44,49 @@ class FileWatcher {
       if (_lastModification == null) {
         _lastModification = stat.modified;
         print('FileWatcher: Initial modification time set for $directoryPath: $_lastModification');
+        // Also initialize entries list on first check
+        try {
+          _lastEntries = (await dir.list().toList())
+              .where((e) => e is Directory)
+              .map((e) => e.path)
+              .toSet();
+          print('FileWatcher: Initial entries tracked for $directoryPath: ${_lastEntries!.length}');
+        } catch (e) {
+          print('FileWatcher: Error listing initial entries: $e');
+        }
         return;
       }
 
-      // Check if directory was modified
-      if (stat.modified.isAfter(_lastModification!)) {
+      // Check for new/removed subdirectories
+      bool entriesChanged = false;
+      try {
+        final currentEntries = (await dir.list().toList())
+            .where((e) => e is Directory)
+            .map((e) => e.path)
+            .toSet();
+        
+        if (_lastEntries == null) {
+          _lastEntries = currentEntries;
+        } else if (_lastEntries!.length != currentEntries.length ||
+                   !_lastEntries!.containsAll(currentEntries) ||
+                   !currentEntries.containsAll(_lastEntries!)) {
+          entriesChanged = true;
+          _lastEntries = currentEntries;
+        }
+      } catch (e) {
+        print('FileWatcher: Error listing entries: $e');
+      }
+
+      // Also check modification time for robustness
+      bool wasModified = false;
+      if (_lastModification != null && stat.modified.isAfter(_lastModification!)) {
+        wasModified = true;
         _lastModification = stat.modified;
+      } else if (_lastModification == null) {
+        _lastModification = stat.modified;
+      }
+
+      if (entriesChanged || wasModified) {
         print('FileWatcher: Change detected in $directoryPath at $stat.modified');
         onChange();
       }
