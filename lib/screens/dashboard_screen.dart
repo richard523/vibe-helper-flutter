@@ -4,10 +4,11 @@ import 'package:provider/provider.dart';
 import '../viewmodels/app_state.dart';
 import '../widgets/cost_card.dart';
 import '../widgets/token_card.dart';
+import '../widgets/activity_card.dart';
+import '../widgets/tool_usage_card.dart';
 import '../widgets/session_list.dart';
 import '../widgets/project_filter.dart';
 import '../widgets/time_range_filter.dart';
-import '../widgets/tool_usage_card.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -15,6 +16,7 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<AppState>();
+    final filteredSessions = appState.filteredSessions;
 
     return Scaffold(
       appBar: AppBar(
@@ -26,67 +28,84 @@ class DashboardScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          // Filters
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                const Expanded(child: ProjectFilter()),
-                const SizedBox(width: 16),
-                const Expanded(child: TimeRangeFilter()),
-              ],
-            ),
-          ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            spacing: 16,
+            children: [
+              // Filters row (matches original toolbar)
+              SizedBox(
+                height: 48,
+                child: Row(
+                  children: [
+                    const Expanded(flex: 2, child: ProjectFilter()),
+                    const SizedBox(width: 16),
+                    const Expanded(flex: 2, child: TimeRangeFilter()),
+                    const Spacer(flex: 1),
+                    // Appearance toggle placeholder
+                    IconButton(
+                      icon: const Icon(Icons.brightness_6),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ),
 
-          // Stats Cards Row 1
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: CostCard(
-                    totalCost: appState.totalCost,
-                    totalSessions: appState.totalSessions,
+              if (appState.isLoading)
+                const SizedBox(height: 200, child: Center(child: CircularProgressIndicator()))
+              else ...[
+                // Top row: Cost + Tokens (280px height in original)
+                SizedBox(
+                  height: 280,
+                  child: Row(
+                    spacing: 16,
+                    children: [
+                      Expanded(
+                        child: CostCard(sessions: filteredSessions),
+                      ),
+                      Expanded(
+                        child: TokenCard(sessions: filteredSessions),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: TokenCard(
-                    totalTokens: appState.totalTokens,
-                    avgTokensPerSecond: appState.averageTokensPerSecond,
+
+                // Second row: Activity + Tool Usage (280px height in original)
+                SizedBox(
+                  height: 280,
+                  child: Row(
+                    spacing: 16,
+                    children: [
+                      Expanded(
+                        child: ActivityCard(sessions: filteredSessions),
+                      ),
+                      Expanded(
+                        child: ToolUsageCard(
+                          agreed: appState.toolCallBreakdown['agreed'] ?? 0,
+                          rejected: appState.toolCallBreakdown['rejected'] ?? 0,
+                          failed: appState.toolCallBreakdown['failed'] ?? 0,
+                          succeeded: filteredSessions.fold(
+                            0, (sum, s) => sum + s.stats.toolCallsSucceeded
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+
+                // Session list
+                SessionList(
+                  sessions: filteredSessions,
+                  onSessionSelected: (session) {
+                    appState.selectedSession = session;
+                    Navigator.pushNamed(context, '/session');
+                  },
+                ),
               ],
-            ),
+            ],
           ),
-
-          const SizedBox(height: 16),
-
-          // Stats Cards Row 2
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: ToolUsageCard(
-              agreed: appState.toolCallBreakdown['agreed'] ?? 0,
-              rejected: appState.toolCallBreakdown['rejected'] ?? 0,
-              failed: appState.toolCallBreakdown['failed'] ?? 0,
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          // Session List
-          Expanded(
-            child: SessionList(
-              sessions: appState.filteredSessions,
-              onSessionSelected: (session) {
-                appState.selectedSession = session;
-                Navigator.pushNamed(context, '/session');
-              },
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

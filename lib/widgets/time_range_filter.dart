@@ -15,9 +15,8 @@ class TimeRangeFilter extends StatelessWidget {
       isDense: true,
       decoration: InputDecoration(
         labelText: 'Time Range',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        border: const OutlineInputBorder(),
+        isDense: true,
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
       items: TimeRangeOption.presets.map((range) => DropdownMenuItem<TimeRangeOption>(

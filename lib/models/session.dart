@@ -1,4 +1,5 @@
 import 'package:path/path.dart' as path;
+import 'message.dart';
 
 class Session {
   final String sessionId;
@@ -12,6 +13,7 @@ class Session {
   final int totalMessages;
   final String? title;
   String? directoryPath;
+  List<SessionMessage> messages;
 
   Session({
     required this.sessionId,
@@ -25,6 +27,7 @@ class Session {
     required this.totalMessages,
     this.title,
     this.directoryPath,
+    this.messages = const [],
   });
 
   String get id => sessionId;
@@ -49,7 +52,7 @@ class Session {
     }
   }
 
-  factory Session.fromJson(Map<String, dynamic> json, {String? directoryPath}) {
+  factory Session.fromJson(Map<String, dynamic> json, {String? directoryPath, List<SessionMessage> messages = const []}) {
     return Session(
       sessionId: json['session_id'] as String,
       startTime: DateTime.parse(json['start_time'] as String),
@@ -62,6 +65,7 @@ class Session {
       totalMessages: json['total_messages'] as int,
       title: json['title'] as String?,
       directoryPath: directoryPath,
+      messages: messages,
     );
   }
 

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:path/path.dart' as path;
 
 import '../models/session.dart';
+import '../models/message.dart';
 import '../utils/vibe_paths.dart';
 
 class SessionLoader {
@@ -26,9 +27,29 @@ class SessionLoader {
         if (!await metaFile.exists()) continue;
 
         try {
-          final content = await metaFile.readAsString();
-          final json = jsonDecode(content) as Map<String, dynamic>;
-          final session = Session.fromJson(json, directoryPath: entry.path);
+          final metaContent = await metaFile.readAsString();
+          final metaJson = jsonDecode(metaContent) as Map<String, dynamic>;
+          
+          // Load messages
+          final messagesFile = File(path.join(entry.path, 'messages.jsonl'));
+          final messages = <SessionMessage>[];
+          if (await messagesFile.exists()) {
+            final messagesContent = await messagesFile.readAsString();
+            for (final line in messagesContent.split('\n')) {
+              if (line.trim().isEmpty) continue;
+              try {
+                final msgJson = jsonDecode(line.trim()) as Map<String, dynamic>;
+                messages.add(SessionMessage.fromJson(msgJson));
+              } catch (e) {
+                // Skip invalid lines
+              }
+            }
+          }
+          
+          final session = Session.fromJson(metaJson, 
+            directoryPath: entry.path,
+            messages: messages,
+          );
           sessions.add(session);
         } catch (e) {
           print('Failed to parse ${metaFile.path}: $e');
@@ -50,5 +71,11 @@ class SessionLoader {
           (s) => s?.sessionId == sessionId,
           orElse: () => null,
         );
+  }
+
+  /// Load sessions for a specific project
+  static Future<List<Session>> loadSessionsForProject(String projectName) async {
+    final allSessions = await loadAllSessions();
+    return allSessions.where((s) => s.projectName == projectName).toList();
   }
 }

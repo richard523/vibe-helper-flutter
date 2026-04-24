@@ -5,42 +5,26 @@ class ToolUsageCard extends StatelessWidget {
   final int agreed;
   final int rejected;
   final int failed;
+  final int succeeded;
 
   const ToolUsageCard({
     super.key,
     required this.agreed,
     required this.rejected,
     required this.failed,
+    this.succeeded = 0,
   });
+
+  int get total => agreed + rejected + failed + succeeded;
 
   @override
   Widget build(BuildContext context) {
-    final total = agreed + rejected + failed;
-    if (total == 0) {
-      return Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Tool Usage',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'No tool calls yet',
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+    // Only show categories with data
+    final chartData = [
+      if (succeeded > 0) _ChartItem('Succeeded', succeeded, Colors.green),
+      if (rejected > 0) _ChartItem('Rejected', rejected, Colors.orange),
+      if (failed > 0) _ChartItem('Failed', failed, Colors.red),
+    ];
 
     return Card(
       child: Padding(
@@ -48,77 +32,118 @@ class ToolUsageCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Tool Usage',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 120,
-              child: PieChart(
-                PieChartData(
-                  sections: [
-                    PieChartSectionData(
-                      value: agreed.toDouble(),
-                      color: Colors.green,
-                      title: '${(agreed / total * 100).toStringAsFixed(0)}%',
-                      radius: 15,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Tool Calls',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                    PieChartSectionData(
-                      value: rejected.toDouble(),
-                      color: Colors.orange,
-                      title: '${(rejected / total * 100).toStringAsFixed(0)}%',
-                      radius: 15,
-                    ),
-                    PieChartSectionData(
-                      value: failed.toDouble(),
-                      color: Colors.red,
-                      title: '${(failed / total * 100).toStringAsFixed(0)}%',
-                      radius: 15,
+                    Text(
+                      total.toString(),
+                      style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF10B981),
+                      ),
                     ),
                   ],
-                  borderData: FlBorderData(show: false),
-                  sectionsSpace: 2,
-                  centerSpaceRadius: 40,
                 ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildLegend('Agreed', Colors.green, agreed),
-                const SizedBox(width: 16),
-                _buildLegend('Rejected', Colors.orange, rejected),
-                const SizedBox(width: 16),
-                _buildLegend('Failed', Colors.red, failed),
+                const Spacer(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (rejected > 0)
+                      Text(
+                        '$rejected rejected',
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.orange,
+                        ),
+                      ),
+                    if (failed > 0)
+                      Text(
+                        '$failed failed',
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.red,
+                        ),
+                      ),
+                  ],
+                ),
               ],
             ),
+            const SizedBox(height: 12),
+            if (chartData.isNotEmpty)
+              Expanded(
+                child: Column(
+                  children: [
+                    // Donut chart
+                    Expanded(
+                      child: PieChart(
+                        PieChartData(
+                          sections: chartData.map((item) =>
+                            PieChartSectionData(
+                              value: item.count.toDouble(),
+                              color: item.color,
+                              radius: 16,
+                            )
+                          ).toList(),
+                          borderData: FlBorderData(show: false),
+                          sectionsSpace: 2,
+                          centerSpaceRadius: 40,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    // Legend
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 4,
+                      children: chartData.map((item) => Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: item.color,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${item.label} (${item.count})',
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      )).toList(),
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildLegend(String label, Color color, int count) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 10,
-          height: 10,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
-        ),
-        const SizedBox(width: 4),
-        Text('$label: $count', style: const TextStyle(fontSize: 11)),
-      ],
-    );
-  }
+class _ChartItem {
+  final String label;
+  final int count;
+  final Color color;
+
+  _ChartItem(this.label, this.count, this.color);
 }

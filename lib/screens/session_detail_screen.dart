@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../viewmodels/app_state.dart';
+import '../models/session.dart';
+import '../models/message.dart';
 
 class SessionDetailScreen extends StatelessWidget {
   const SessionDetailScreen({super.key});
@@ -165,7 +167,7 @@ class SessionDetailScreen extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // TODO: Session messages/conversation
+              // Conversation
               const Text(
                 'Conversation',
                 style: TextStyle(
@@ -174,15 +176,7 @@ class SessionDetailScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              const Card(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'Conversation replay will be shown here',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ),
-              ),
+              _buildConversationList(session.messages),
             ],
           ),
         ),
@@ -248,6 +242,131 @@ class SessionDetailScreen extends StatelessWidget {
       width: 1,
       color: Colors.grey[300],
       margin: const EdgeInsets.symmetric(horizontal: 4),
+    );
+  }
+
+  Widget _buildConversationList(List<SessionMessage> messages) {
+    if (messages.isEmpty) {
+      return const Card(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Text(
+            'No conversation messages',
+            style: TextStyle(color: Colors.grey),
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: messages.map((msg) => _buildMessageCard(msg)).toList(),
+    );
+  }
+
+  Widget _buildMessageCard(SessionMessage msg) {
+    final isUser = msg.isUser;
+    final isTool = msg.isToolCall;
+    
+    Color borderColor;
+    String roleLabel;
+    
+    if (isTool) {
+      borderColor = Colors.orange;
+      roleLabel = msg.toolName ?? 'Tool';
+    } else if (isUser) {
+      borderColor = Colors.blue;
+      roleLabel = 'User';
+    } else {
+      borderColor = Colors.green;
+      roleLabel = 'Assistant';
+    }
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 8),
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: borderColor, width: 2),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: borderColor.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    roleLabel,
+                    style: TextStyle(
+                      color: borderColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                if (msg.timestamp != null) ...[
+                  const SizedBox(width: 8),
+                  Text(
+                    '${msg.timestamp!.hour}:${msg.timestamp!.minute.toString().padLeft(2, '0')}',
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            const SizedBox(height: 8),
+            if (isTool) ...[
+              if (msg.toolArguments != null && msg.toolArguments!.isNotEmpty) ...[
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[900],
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    'Args: ${msg.toolArguments!}',
+                    style: const TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 11,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+              ],
+              if (msg.toolResult != null) ...[
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[900],
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    msg.toolResult!,
+                    style: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 11,
+                      color: msg.toolSuccess == true ? Colors.green : Colors.red,
+                    ),
+                  ),
+                ),
+              ],
+            ] else ...[
+              Text(
+                msg.content,
+                style: const TextStyle(fontSize: 14),
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }

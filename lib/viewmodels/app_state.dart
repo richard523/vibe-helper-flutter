@@ -21,8 +21,8 @@ class TimeRangeOption {
   // Singleton instances
   static const allTime = TimeRangeOption._(label: 'All Time');
   static const today = TimeRangeOption._(label: 'Today', daysAgo: 0);
-  static const last7Days = TimeRangeOption._(label: 'Last 7 Days', daysAgo: 7);
-  static const last30Days = TimeRangeOption._(label: 'Last 30 Days', daysAgo: 30);
+  static const last7Days = TimeRangeOption._(label: '7 Days', daysAgo: 7);
+  static const last30Days = TimeRangeOption._(label: '30 Days', daysAgo: 30);
 
   static const List<TimeRangeOption> presets = [today, last7Days, last30Days, allTime];
 
@@ -43,7 +43,7 @@ class TimeRangeOption {
 
   TimeRangeOption copyWithCustom(DateTime startDate, DateTime endDate) {
     return TimeRangeOption._(
-      label: 'Custom ${startDate.toString().substring(0, 10)} - ${endDate.toString().substring(0, 10)}',
+      label: 'Custom',
       daysAgo: null,
     );
   }
@@ -190,7 +190,7 @@ class AppState with ChangeNotifier {
     _configWatcher = null;
   }
 
-  // Stats computed properties
+  // Stats computed properties (using filteredSessions like original)
   double get totalCost => 
       filteredSessions.fold(0.0, (sum, s) => sum + s.stats.sessionCost);
 

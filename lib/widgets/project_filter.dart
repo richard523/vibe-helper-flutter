@@ -15,9 +15,8 @@ class ProjectFilter extends StatelessWidget {
       isDense: true,
       decoration: InputDecoration(
         labelText: 'Project',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        border: const OutlineInputBorder(),
+        isDense: true,
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
       hint: const Text('All Projects'),
