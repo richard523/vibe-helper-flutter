@@ -142,6 +142,7 @@ class AppState with ChangeNotifier {
   FileWatcher? _configWatcher;
 
   Future<void> loadAll() async {
+    print('AppState: Starting full reload...');
     isLoading = true;
     await Future.wait([
       _loadSessions(),
@@ -149,25 +150,34 @@ class AppState with ChangeNotifier {
       _loadSkills(),
     ]);
     isLoading = false;
+    print('AppState: Full reload complete. Loaded ${sessions.length} sessions, ${skills.length} skills');
     startWatching();
   }
 
   Future<void> _loadSessions() async {
+    print('AppState: Loading sessions...');
     sessions = await SessionLoader.loadAllSessions();
+    print('AppState: Sessions updated (${sessions.length} total)');
   }
 
   Future<void> _loadConfig() async {
+    print('AppState: Loading config...');
     config = await ConfigLoader.loadConfig();
+    print('AppState: Config updated');
   }
 
   Future<void> _loadSkills() async {
+    print('AppState: Loading skills...');
     skills = await SkillLoader.loadAllSkills();
+    print('AppState: Skills updated (${skills.length} total)');
   }
 
   void startWatching() {
+    print('AppState: Starting file watchers...');
     _sessionWatcher = FileWatcher(
       directoryPath: VibePaths.sessionLogsDirectory,
       onChange: () async {
+        print('AppState: Session directory changed, reloading...');
         await _loadSessions();
       },
     );
@@ -175,19 +185,23 @@ class AppState with ChangeNotifier {
     _configWatcher = FileWatcher(
       directoryPath: VibePaths.vibeDirectory,
       onChange: () async {
+        print('AppState: Config directory changed, reloading...');
         await Future.wait([
           _loadConfig(),
           _loadSkills(),
         ]);
       },
     );
+    print('AppState: File watchers started');
   }
 
   void stopWatching() {
+    print('AppState: Stopping file watchers...');
     _sessionWatcher?.stop();
     _configWatcher?.stop();
     _sessionWatcher = null;
     _configWatcher = null;
+    print('AppState: File watchers stopped');
   }
 
   // Stats computed properties (using filteredSessions like original)

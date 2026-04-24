@@ -9,6 +9,7 @@ import 'screens/skills_screen.dart';
 import 'screens/session_detail_screen.dart';
 
 void main() {
+  print('VibeHelper: Starting app...');
   runApp(
     ChangeNotifierProvider(
       create: (context) => AppState()..loadAll(),

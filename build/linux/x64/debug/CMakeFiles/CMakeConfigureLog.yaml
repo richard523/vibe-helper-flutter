@@ -909,8 +909,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-fLq2dS"
-      binary: "/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-fLq2dS"
+      source: "/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-4ilDoo"
+      binary: "/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-4ilDoo"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps"
       CMAKE_CXX_FLAGS: ""
@@ -922,10 +922,10 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-fLq2dS'
+        Change Dir: '/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-4ilDoo'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_e4802
-        [1/2] /usr/bin/clang++   -v -MD -MT CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): /usr/bin/ninja -v cmTC_623f2
+        [1/2] /usr/bin/clang++   -v -MD -MT CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         clang version 22.1.3
         Target: x86_64-pc-linux-gnu
         Thread model: posix
@@ -937,7 +937,7 @@ events:
         Candidate multilib: 32;@m32
         Selected multilib: .;@m64
          (in-process)
-         "/usr/bin/clang++" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-fLq2dS -v -fcoverage-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-fLq2dS -resource-dir /usr/lib/clang/22 -dependency-file CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1 -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/x86_64-pc-linux-gnu -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/backward -internal-isystem /usr/lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+         "/usr/bin/clang++" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-4ilDoo -v -fcoverage-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-4ilDoo -resource-dir /usr/lib/clang/22 -dependency-file CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1 -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/x86_64-pc-linux-gnu -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/backward -internal-isystem /usr/lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         clang -cc1 version 22.1.3 based upon LLVM 22.1.3 default target x86_64-pc-linux-gnu
         ignoring nonexistent directory "/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include"
         ignoring nonexistent directory "/include"
@@ -950,7 +950,7 @@ events:
          /usr/local/include
          /usr/include
         End of search list.
-        [2/2] : && /usr/bin/clang++  -v -Wl,-v CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_e4802   && :
+        [2/2] : && /usr/bin/clang++  -v -Wl,-v CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_623f2   && :
         clang version 22.1.3
         Target: x86_64-pc-linux-gnu
         Thread model: posix
@@ -961,7 +961,7 @@ events:
         Candidate multilib: .;@m64
         Candidate multilib: 32;@m32
         Selected multilib: .;@m64
-         "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_e4802 /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crtn.o
+         "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_623f2 /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crtn.o
         GNU ld (GNU Binutils) 2.46
         
       exitCode: 0
@@ -1001,10 +1001,10 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-fLq2dS']
+        ignore line: [Change Dir: '/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-4ilDoo']
         ignore line: []
-        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_e4802]
-        ignore line: [[1/2] /usr/bin/clang++   -v -MD -MT CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_623f2]
+        ignore line: [[1/2] /usr/bin/clang++   -v -MD -MT CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [clang version 22.1.3]
         ignore line: [Target: x86_64-pc-linux-gnu]
         ignore line: [Thread model: posix]
@@ -1019,7 +1019,7 @@ events:
         ignore line: [Selected multilib: .]
         ignore line: [@m64]
         ignore line: [ (in-process)]
-        ignore line: [ "/usr/bin/clang++" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-fLq2dS -v -fcoverage-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-fLq2dS -resource-dir /usr/lib/clang/22 -dependency-file CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1 -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/x86_64-pc-linux-gnu -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/backward -internal-isystem /usr/lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [ "/usr/bin/clang++" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-4ilDoo -v -fcoverage-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-4ilDoo -resource-dir /usr/lib/clang/22 -dependency-file CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1 -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/x86_64-pc-linux-gnu -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/backward -internal-isystem /usr/lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [clang -cc1 version 22.1.3 based upon LLVM 22.1.3 default target x86_64-pc-linux-gnu]
         ignore line: [ignoring nonexistent directory "/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include"]
         ignore line: [ignoring nonexistent directory "/include"]
@@ -1032,7 +1032,7 @@ events:
         ignore line: [ /usr/local/include]
         ignore line: [ /usr/include]
         ignore line: [End of search list.]
-        ignore line: [[2/2] : && /usr/bin/clang++  -v -Wl -v CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_e4802   && :]
+        ignore line: [[2/2] : && /usr/bin/clang++  -v -Wl -v CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_623f2   && :]
         ignore line: [clang version 22.1.3]
         ignore line: [Target: x86_64-pc-linux-gnu]
         ignore line: [Thread model: posix]
@@ -1046,7 +1046,7 @@ events:
         ignore line: [@m32]
         ignore line: [Selected multilib: .]
         ignore line: [@m64]
-        link line: [ "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_e4802 /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crtn.o]
+        link line: [ "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_623f2 /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crtn.o]
           arg [/usr/bin/ld] ==> ignore
           arg [--hash-style=gnu] ==> ignore
           arg [--build-id] ==> ignore
@@ -1057,7 +1057,7 @@ events:
           arg [-dynamic-linker] ==> ignore
           arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_e4802] ==> ignore
+          arg [cmTC_623f2] ==> ignore
           arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o] ==> obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o]
           arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o] ==> obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o]
           arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o] ==> obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o]
@@ -1070,7 +1070,7 @@ events:
           arg [-L/lib] ==> dir [/lib]
           arg [-L/usr/lib] ==> dir [/usr/lib]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_e4802.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [CMakeFiles/cmTC_623f2.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
           arg [-lstdc++] ==> lib [stdc++]
           arg [-lm] ==> lib [m]
           arg [-lgcc_s] ==> lib [gcc_s]
@@ -2560,8 +2560,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-nNJCQs"
-      binary: "/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-nNJCQs"
+      source: "/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-Frlw9o"
+      binary: "/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-Frlw9o"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps"
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
@@ -2572,10 +2572,10 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-nNJCQs'
+        Change Dir: '/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-Frlw9o'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_abba7
-        [1/2] /usr/bin/clang   -v -MD -MT CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): /usr/bin/ninja -v cmTC_62eb8
+        [1/2] /usr/bin/clang   -v -MD -MT CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
         clang version 22.1.3
         Target: x86_64-pc-linux-gnu
         Thread model: posix
@@ -2587,7 +2587,7 @@ events:
         Candidate multilib: 32;@m32
         Selected multilib: .;@m64
          (in-process)
-         "/usr/bin/clang-22" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-nNJCQs -v -fcoverage-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-nNJCQs -resource-dir /usr/lib/clang/22 -dependency-file CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake/Modules/CMakeCCompilerABI.c
+         "/usr/bin/clang-22" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-Frlw9o -v -fcoverage-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-Frlw9o -resource-dir /usr/lib/clang/22 -dependency-file CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake/Modules/CMakeCCompilerABI.c
         clang -cc1 version 22.1.3 based upon LLVM 22.1.3 default target x86_64-pc-linux-gnu
         ignoring nonexistent directory "/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include"
         ignoring nonexistent directory "/include"
@@ -2597,7 +2597,7 @@ events:
          /usr/local/include
          /usr/include
         End of search list.
-        [2/2] : && /usr/bin/clang  -v -Wl,-v CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o -o cmTC_abba7   && :
+        [2/2] : && /usr/bin/clang  -v -Wl,-v CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o -o cmTC_62eb8   && :
         clang version 22.1.3
         Target: x86_64-pc-linux-gnu
         Thread model: posix
@@ -2608,7 +2608,7 @@ events:
         Candidate multilib: .;@m64
         Candidate multilib: 32;@m32
         Selected multilib: .;@m64
-         "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_abba7 /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crtn.o
+         "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_62eb8 /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crtn.o
         GNU ld (GNU Binutils) 2.46
         
       exitCode: 0
@@ -2642,10 +2642,10 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-nNJCQs']
+        ignore line: [Change Dir: '/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-Frlw9o']
         ignore line: []
-        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_abba7]
-        ignore line: [[1/2] /usr/bin/clang   -v -MD -MT CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_62eb8]
+        ignore line: [[1/2] /usr/bin/clang   -v -MD -MT CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
         ignore line: [clang version 22.1.3]
         ignore line: [Target: x86_64-pc-linux-gnu]
         ignore line: [Thread model: posix]
@@ -2660,7 +2660,7 @@ events:
         ignore line: [Selected multilib: .]
         ignore line: [@m64]
         ignore line: [ (in-process)]
-        ignore line: [ "/usr/bin/clang-22" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-nNJCQs -v -fcoverage-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-nNJCQs -resource-dir /usr/lib/clang/22 -dependency-file CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [ "/usr/bin/clang-22" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-Frlw9o -v -fcoverage-compilation-dir=/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-Frlw9o -resource-dir /usr/lib/clang/22 -dependency-file CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
         ignore line: [clang -cc1 version 22.1.3 based upon LLVM 22.1.3 default target x86_64-pc-linux-gnu]
         ignore line: [ignoring nonexistent directory "/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include"]
         ignore line: [ignoring nonexistent directory "/include"]
@@ -2670,7 +2670,7 @@ events:
         ignore line: [ /usr/local/include]
         ignore line: [ /usr/include]
         ignore line: [End of search list.]
-        ignore line: [[2/2] : && /usr/bin/clang  -v -Wl -v CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o -o cmTC_abba7   && :]
+        ignore line: [[2/2] : && /usr/bin/clang  -v -Wl -v CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o -o cmTC_62eb8   && :]
         ignore line: [clang version 22.1.3]
         ignore line: [Target: x86_64-pc-linux-gnu]
         ignore line: [Thread model: posix]
@@ -2684,7 +2684,7 @@ events:
         ignore line: [@m32]
         ignore line: [Selected multilib: .]
         ignore line: [@m64]
-        link line: [ "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_abba7 /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crtn.o]
+        link line: [ "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_62eb8 /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crtn.o]
           arg [/usr/bin/ld] ==> ignore
           arg [--hash-style=gnu] ==> ignore
           arg [--build-id] ==> ignore
@@ -2695,7 +2695,7 @@ events:
           arg [-dynamic-linker] ==> ignore
           arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_abba7] ==> ignore
+          arg [cmTC_62eb8] ==> ignore
           arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o] ==> obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o]
           arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o] ==> obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o]
           arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o] ==> obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o]
@@ -2708,7 +2708,7 @@ events:
           arg [-L/lib] ==> dir [/lib]
           arg [-L/usr/lib] ==> dir [/usr/lib]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_abba7.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [CMakeFiles/cmTC_62eb8.dir/CMakeCCompilerABI.c.o] ==> ignore
           arg [-lgcc] ==> lib [gcc]
           arg [--as-needed] ==> ignore
           arg [-lgcc_s] ==> lib [gcc_s]
@@ -2985,8 +2985,8 @@ events:
       - "/usr/share/cmake/Modules/FindJNI.cmake:590 (check_source_compiles)"
       - "flutter/ephemeral/.plugin_symlinks/jni/src/CMakeLists.txt:20 (find_package)"
     directories:
-      source: "/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-21ycdG"
-      binary: "/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-21ycdG"
+      source: "/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-9ds0u6"
+      binary: "/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-9ds0u6"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps"
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
@@ -2997,13 +2997,13 @@ events:
       variable: "JNI_INCLUDE_PATH2_OPTIONAL"
       cached: true
       stdout: |
-        Change Dir: '/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-21ycdG'
+        Change Dir: '/home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-9ds0u6'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_d8b52
-        [1/2] /usr/bin/clang -DJNI_INCLUDE_PATH2_OPTIONAL -I/usr/lib/jvm/default/include  -MD -MT CMakeFiles/cmTC_d8b52.dir/src.c.o -MF CMakeFiles/cmTC_d8b52.dir/src.c.o.d -o CMakeFiles/cmTC_d8b52.dir/src.c.o -c /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-21ycdG/src.c
-        FAILED: [code=1] CMakeFiles/cmTC_d8b52.dir/src.c.o 
-        /usr/bin/clang -DJNI_INCLUDE_PATH2_OPTIONAL -I/usr/lib/jvm/default/include  -MD -MT CMakeFiles/cmTC_d8b52.dir/src.c.o -MF CMakeFiles/cmTC_d8b52.dir/src.c.o.d -o CMakeFiles/cmTC_d8b52.dir/src.c.o -c /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-21ycdG/src.c
-        In file included from /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-21ycdG/src.c:2:
+        Run Build Command(s): /usr/bin/ninja -v cmTC_af71d
+        [1/2] /usr/bin/clang -DJNI_INCLUDE_PATH2_OPTIONAL -I/usr/lib/jvm/default/include  -MD -MT CMakeFiles/cmTC_af71d.dir/src.c.o -MF CMakeFiles/cmTC_af71d.dir/src.c.o.d -o CMakeFiles/cmTC_af71d.dir/src.c.o -c /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-9ds0u6/src.c
+        FAILED: [code=1] CMakeFiles/cmTC_af71d.dir/src.c.o 
+        /usr/bin/clang -DJNI_INCLUDE_PATH2_OPTIONAL -I/usr/lib/jvm/default/include  -MD -MT CMakeFiles/cmTC_af71d.dir/src.c.o -MF CMakeFiles/cmTC_af71d.dir/src.c.o.d -o CMakeFiles/cmTC_af71d.dir/src.c.o -c /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-9ds0u6/src.c
+        In file included from /home/chardlinux/SynologyDrive/Development/random/flutter-vibe-helper/build/linux/x64/debug/CMakeFiles/CMakeScratch/TryCompile-9ds0u6/src.c:2:
         /usr/lib/jvm/default/include/jni.h:45:10: fatal error: 'jni_md.h' file not found
            45 | #include "jni_md.h"
               |          ^~~~~~~~~~

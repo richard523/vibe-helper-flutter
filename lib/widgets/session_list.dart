@@ -26,6 +26,8 @@ class SessionList extends StatelessWidget {
     }
 
     return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: sessions.length,
       itemBuilder: (context, index) {
         final session = sessions[index];

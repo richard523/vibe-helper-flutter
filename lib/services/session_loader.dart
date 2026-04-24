@@ -7,17 +7,22 @@ import '../models/message.dart';
 import '../utils/vibe_paths.dart';
 
 class SessionLoader {
-  static final String _sessionDir = VibePaths.sessionLogsDirectory;
-
   static Future<List<Session>> loadAllSessions() async {
-    final dir = Directory(_sessionDir);
+    final sessionDir = VibePaths.sessionLogsDirectory;
+    
+    print('SessionLoader: Loading sessions from $sessionDir');
+    
+    final dir = Directory(sessionDir);
 
     if (!await dir.exists()) {
+      print('SessionLoader: Session directory does not exist at $sessionDir');
       return [];
     }
 
     try {
       final entries = await dir.list().toList();
+      print('SessionLoader: Found ${entries.length} entries');
+      
       final sessions = <Session>[];
 
       for (final entry in entries) {
@@ -42,6 +47,7 @@ class SessionLoader {
                 messages.add(SessionMessage.fromJson(msgJson));
               } catch (e) {
                 // Skip invalid lines
+                print('SessionLoader: Skipping invalid message line: $e');
               }
             }
           }
@@ -52,15 +58,16 @@ class SessionLoader {
           );
           sessions.add(session);
         } catch (e) {
-          print('Failed to parse ${metaFile.path}: $e');
+          print('SessionLoader: Failed to parse ${metaFile.path}: $e');
         }
       }
 
       // Sort by startTime descending (newest first)
       sessions.sort((a, b) => b.startTime.compareTo(a.startTime));
+      print('SessionLoader: Loaded ${sessions.length} sessions');
       return sessions;
     } catch (e) {
-      print('Error loading sessions: $e');
+      print('SessionLoader: Error loading sessions: $e');
       return [];
     }
   }
