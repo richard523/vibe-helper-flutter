@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 
 import '../viewmodels/app_state.dart';
 import '../widgets/tool_usage_card.dart';
+import '../utils/formatters.dart';
 
 class AnalyticsScreen extends StatelessWidget {
   const AnalyticsScreen({super.key});
@@ -40,25 +41,25 @@ class AnalyticsScreen extends StatelessWidget {
                     children: [
                       _buildOverviewStat(
                         'Total Cost',
-                        '\$${appState.totalCost.toStringAsFixed(2)}',
+                        '\$${formatDoubleWithCommas(appState.totalCost, 2)}',
                         Icons.monetization_on,
                         Colors.green,
                       ),
                       _buildOverviewStat(
                         'Total Tokens',
-                        appState.totalTokens.toString(),
+                        formatNumberWithCommas(appState.totalTokens),
                         Icons.text_fields,
                         Colors.blue,
                       ),
                       _buildOverviewStat(
                         'Sessions',
-                        appState.totalSessions.toString(),
+                        formatNumberWithCommas(appState.totalSessions),
                         Icons.history,
                         Colors.purple,
                       ),
                       _buildOverviewStat(
                         'Tool Calls',
-                        appState.totalToolCalls.toString(),
+                        formatNumberWithCommas(appState.totalToolCalls),
                         Icons.build,
                         Colors.orange,
                       ),
@@ -171,7 +172,7 @@ class AnalyticsScreen extends StatelessWidget {
               showTitles: true,
               reservedSize: 40,
               getTitlesWidget: (value, meta) => Text(
-                '\$${value.toStringAsFixed(2)}',
+                '\$${formatDoubleWithCommas(value, 2)}',
                 style: const TextStyle(fontSize: 10),
               ),
             ),

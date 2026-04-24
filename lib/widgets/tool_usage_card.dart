@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
+import '../utils/formatters.dart';
+
 class ToolUsageCard extends StatelessWidget {
   final int agreed;
   final int rejected;
@@ -50,7 +52,7 @@ class ToolUsageCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      total.toString(),
+                      formatNumberWithCommas(total),
                       style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -65,7 +67,7 @@ class ToolUsageCard extends StatelessWidget {
                   children: [
                     if (rejected > 0)
                       Text(
-                        '$rejected rejected',
+                        '${formatNumberWithCommas(rejected)} rejected',
                         style: const TextStyle(
                           fontSize: 11,
                           color: Colors.orange,
@@ -73,7 +75,7 @@ class ToolUsageCard extends StatelessWidget {
                       ),
                     if (failed > 0)
                       Text(
-                        '$failed failed',
+                        '${formatNumberWithCommas(failed)} failed',
                         style: const TextStyle(
                           fontSize: 11,
                           color: Colors.red,
@@ -129,7 +131,7 @@ class ToolUsageCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            '${item.label} (${item.count})',
+                            '${item.label} (${formatNumberWithCommas(item.count)})',
                             style: const TextStyle(
                               fontSize: 10,
                               color: Colors.grey,

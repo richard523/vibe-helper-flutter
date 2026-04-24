@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import '../models/session.dart';
+import '../utils/formatters.dart';
 
 class ActivityCard extends StatelessWidget {
   final List<Session> sessions;
@@ -41,7 +42,7 @@ class ActivityCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '$sessionCount sessions',
+                      '${formatNumberWithCommas(sessionCount)} sessions',
                       style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,

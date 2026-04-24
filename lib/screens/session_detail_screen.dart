@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../viewmodels/app_state.dart';
 import '../models/session.dart';
 import '../models/message.dart';
+import '../utils/formatters.dart';
 
 class SessionDetailScreen extends StatelessWidget {
   const SessionDetailScreen({super.key});
@@ -106,7 +107,7 @@ class SessionDetailScreen extends StatelessWidget {
                   Expanded(
                     child: _buildStatCard(
                       'Token Speed',
-                      '${session.stats.tokensPerSecond.toStringAsFixed(1)} tok/s',
+                      '${formatDoubleWithCommas(session.stats.tokensPerSecond, 1)} tok/s',
                       Icons.speed,
                       Colors.purple,
                     ),
@@ -120,7 +121,7 @@ class SessionDetailScreen extends StatelessWidget {
                   Expanded(
                     child: _buildStatCard(
                       'Prompt Tokens',
-                      session.stats.sessionPromptTokens.toString(),
+                      formatNumberWithCommas(session.stats.sessionPromptTokens),
                       Icons.input,
                       Colors.orange,
                     ),
@@ -129,7 +130,7 @@ class SessionDetailScreen extends StatelessWidget {
                   Expanded(
                     child: _buildStatCard(
                       'Completion Tokens',
-                      session.stats.sessionCompletionTokens.toString(),
+                      formatNumberWithCommas(session.stats.sessionCompletionTokens),
                       Icons.output,
                       Colors.cyan,
                     ),
@@ -219,7 +220,7 @@ class SessionDetailScreen extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            count.toString(),
+            formatNumberWithCommas(count),
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: color,

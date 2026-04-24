@@ -1,5 +1,6 @@
 import 'package:path/path.dart' as path;
 import 'message.dart';
+import '../utils/formatters.dart';
 
 class Session {
   final String sessionId;
@@ -140,9 +141,9 @@ class SessionStats {
 
   int get totalToolCalls => toolCallsAgreed + toolCallsRejected + toolCallsFailed;
 
-  String get formattedCost => '\$${sessionCost.toStringAsFixed(2)}';
+  String get formattedCost => '\$${formatDoubleWithCommas(sessionCost, 2)}';
 
-  String get formattedTokens => sessionTotalLlmTokens.toString();
+  String get formattedTokens => formatNumberWithCommas(sessionTotalLlmTokens);
 
   factory SessionStats.fromJson(Map<String, dynamic> json) {
     return SessionStats(

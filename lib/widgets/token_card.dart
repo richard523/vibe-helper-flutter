@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import '../models/session.dart';
+import '../utils/formatters.dart';
 
 class TokenCard extends StatelessWidget {
   final List<Session> sessions;
@@ -56,7 +57,7 @@ class TokenCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${avgTokensPerSecond.toStringAsFixed(0)} tok/s avg',
+                      '${formatDoubleWithCommas(avgTokensPerSecond, 0)} tok/s avg',
                       style: const TextStyle(
                         fontSize: 11,
                         color: Colors.grey,
@@ -91,11 +92,11 @@ class TokenCard extends StatelessWidget {
 
   String _formatTokens(int tokens) {
     if (tokens >= 1000000) {
-      return '${(tokens / 1000000).toStringAsFixed(1)}M';
+      return '${formatDoubleWithCommas(tokens / 1000000, 1)}M';
     } else if (tokens >= 1000) {
-      return '${(tokens / 1000).toStringAsFixed(1)}K';
+      return '${formatDoubleWithCommas(tokens / 1000, 1)}K';
     } else {
-      return tokens.toString();
+      return formatNumberWithCommas(tokens);
     }
   }
 

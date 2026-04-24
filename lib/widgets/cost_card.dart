@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import '../models/session.dart';
+import '../utils/formatters.dart';
 
 class CostCard extends StatelessWidget {
   final List<Session> sessions;
@@ -37,7 +38,7 @@ class CostCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '\$${totalCost.toStringAsFixed(2)}',
+                      '\$${formatDoubleWithCommas(totalCost, 2)}',
                       style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -51,14 +52,14 @@ class CostCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '$sessionCount sessions',
+                      '${formatNumberWithCommas(sessionCount)} sessions',
                       style: const TextStyle(
                         fontSize: 11,
                         color: Colors.grey,
                       ),
                     ),
                     Text(
-                      'avg \$${avgCostPerSession.toStringAsFixed(2)}/session',
+                      'avg \$${formatDoubleWithCommas(avgCostPerSession, 2)}/session',
                       style: const TextStyle(
                         fontSize: 11,
                         color: Colors.grey,
@@ -144,7 +145,7 @@ class CostCard extends StatelessWidget {
               showTitles: true,
               reservedSize: 28,
               getTitlesWidget: (value, meta) => Text(
-                '\$${value.toStringAsFixed(2)}',
+                '\$${formatDoubleWithCommas(value, 2)}',
                 style: const TextStyle(fontSize: 10, color: Colors.grey),
               ),
             ),
