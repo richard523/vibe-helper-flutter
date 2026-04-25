@@ -1,4 +1,4 @@
-# Vibe Helper, an unofficial analytics app for Mistral Vibe
+# Vibe Helper
 
 <p align="center">
   <img src="assets/vibe-helper-icon.png" alt="Flutter Vibe Helper Icon" width="200" height="200">
