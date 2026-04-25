@@ -62,17 +62,21 @@ jobs:
           cp release/flutter_vibe_helper/icon.png flutter_vibe_helper-deb/usr/share/icons/hicolor/256x256/apps/flutter-vibe-helper.png
           chmod +x flutter_vibe_helper-deb/usr/local/bin/flutter_vibe_helper
 
+      - name: Set version without v-prefix
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
       - name: Create control file
         run: |
           echo "Package: flutter-vibe-helper" > flutter_vibe_helper-deb/DEBIAN/control
-          echo "Version: ${GITHUB_REF_NAME}" >> flutter_vibe_helper-deb/DEBIAN/control
+          echo "Version: ${{ steps.version.outputs.VERSION }}" >> flutter_vibe_helper-deb/DEBIAN/control
           echo "Architecture: amd64" >> flutter_vibe_helper-deb/DEBIAN/control
           echo "Maintainer: Richard <you@example.com>" >> flutter_vibe_helper-deb/DEBIAN/control
           echo "Description: Dashboard for Mistral Vibe CLI analytics" >> flutter_vibe_helper-deb/DEBIAN/control
           echo "Depends: libgtk-3-0, libc6, libglib2.0-0, libstdc++6" >> flutter_vibe_helper-deb/DEBIAN/control
 
       - name: Build deb package
-        run: dpkg-deb --build flutter_vibe_helper-deb flutter-vibe-helper-${{ github.ref_name }}-amd64.deb
+        run: dpkg-deb --build flutter_vibe_helper-deb flutter-vibe-helper-${{ steps.version.outputs.VERSION }}-amd64.deb
 
       - name: Upload deb artifact
         uses: actions/upload-artifact@v4
