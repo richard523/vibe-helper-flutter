@@ -4,7 +4,7 @@
   <img src="assets/vibe-helper-icon.png" alt="Flutter Vibe Helper Icon" width="200" height="200">
 </p>
 
-<p align="center">A cross-platform (mobile + desktop + web) dashboard for Mistral Vibe CLI analytics and management.</p>
+<p align="center">A Flutter-based cross-platform (mobile + desktop + web) dashboard for Mistral Vibe CLI analytics and management.</p>
 
 ## Platforms
 
