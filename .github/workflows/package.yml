@@ -5,6 +5,8 @@ on:
     tags: ['v*']
   workflow_dispatch:
 
+permissions: write-all
+
 jobs:
   deb-package:
     name: Build Debian Package
