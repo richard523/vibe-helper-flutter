@@ -14,7 +14,7 @@
 |----------|--------|
 | Android | 🫩 not yet Supported |
 | iOS | 🫩 not yet Supported |
-| Linux | ✅ yay Supported (apt coming soon) |
+| Linux | ✅ binaries only|
 | macOS | 🫩 not yetSupported |
 | Windows | ✅ Supported |
 | Web | 🫩 Not yet Supported |
