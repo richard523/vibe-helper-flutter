@@ -37,9 +37,7 @@ jobs:
       - run: flutter create --platforms windows .
       - run: flutter build windows
       - name: Zip Windows build
-        run: |
-          cd build/windows/x64/runner/Release
-          Compress-Archive -Path * -DestinationPath ../../../../../../vibe-helper-windows.zip
+        run: Compress-Archive -Path build/windows/x64/runner/Release/* -DestinationPath vibe-helper-windows.zip -Force
       - name: Upload Windows
         uses: softprops/action-gh-release@v2
         with:
