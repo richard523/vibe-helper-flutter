@@ -31,7 +31,7 @@ jobs:
       - name: Create Windows project if missing
         run: |
           if (-not (Test-Path windows)) {
-            flutter create --platforms windows .
+            flutter create --platforms windows --project-name flutter_vibe_helper .
           }
 
       - name: Create resources directory and convert icon
