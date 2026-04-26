@@ -22,6 +22,7 @@ jobs:
         with:
           tag_name: ${{ steps.tag.outputs.tag }}
           name: Release ${{ steps.tag.outputs.tag }}
+          draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -34,12 +35,13 @@ jobs:
       - run: flutter create --platforms windows .
       - run: flutter build windows
       - name: Zip Windows build
-        run: Compress-Archive -Path build\windows\runner\Release\* -DestinationPath vibe-helper-windows.zip
+        run: Compress-Archive -Path build/windows/runner/Release/* -DestinationPath vibe-helper-windows.zip
       - name: Upload Windows
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.create-release.outputs.tag }}
           files: vibe-helper-windows.zip
+          draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -59,6 +61,7 @@ jobs:
         with:
           tag_name: ${{ needs.create-release.outputs.tag }}
           files: vibe-helper-linux.tar.gz
+          draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -94,5 +97,18 @@ jobs:
         with:
           tag_name: ${{ needs.create-release.outputs.tag }}
           files: PKGBUILD
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  finalize:
+    needs: [build-windows, build-linux, build-arch]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.create-release.outputs.tag }}
+          draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
