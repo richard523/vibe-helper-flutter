@@ -10,12 +10,12 @@
 
 | Platform | Status |
 |----------|--------|
-| Android | ✅ Supported |
-| iOS | ✅ Supported |
-| Linux | ✅ Supported |
-| macOS | ✅ Supported |
-| Windows | ✅ Supported |
-| Web | ✅ Supported |
+| Android | 🫩 not yet Supported |
+| iOS | 🫩 not yet Supported |
+| Linux | ✅ yay Supported (apt coming soon) |
+| macOS | 🫩 not yetSupported |
+| Windows | 🫩not yet Supported |
+| Web | 🫩 Not yet Supported |
 
 ## Quick Start
 
