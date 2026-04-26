@@ -10,6 +10,7 @@
 flutter_assets/
 
 # Generated plugin dependencies
+.flutter-plugins/
 .flutter-plugins-dependencies
 
 # IDE
@@ -43,8 +44,7 @@ macos/.idea/
 macos/build/
 
 # Windows
-windows/.idea/
-windows/build/
+windows/
 
 # Web
 web/.idea/
