@@ -28,4 +28,7 @@ class VibePaths {
   static String get sessionLogsDirectory => path.join(vibeDirectory, logsDir, sessionDir);
 
   static String get skillsDirectory => path.join(vibeDirectory, skillsDir);
+
+  // Project-local skills directory (relative to current working directory)
+  static String get projectSkillsDirectory => path.join('.', vibeDir, skillsDir);
 }

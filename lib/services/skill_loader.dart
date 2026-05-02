@@ -5,12 +5,25 @@ import '../models/skill.dart';
 import '../utils/vibe_paths.dart';
 
 class SkillLoader {
-  static final String _skillsDir = VibePaths.skillsDirectory;
-
   static Future<List<Skill>> loadAllSkills() async {
-    final dir = Directory(_skillsDir);
+    final skills = <Skill>[];
+    
+    // Load global skills from ~/.vibe/skills/
+    skills.addAll(await _loadSkillsFromDirectory(VibePaths.skillsDirectory));
+    
+    // Load project-local skills from ./.vibe/skills/
+    skills.addAll(await _loadSkillsFromDirectory(VibePaths.projectSkillsDirectory));
+
+    // Sort by name
+    skills.sort((a, b) => a.frontmatter.name.compareTo(b.frontmatter.name));
+    return skills;
+  }
+
+  static Future<List<Skill>> _loadSkillsFromDirectory(String directoryPath) async {
+    final dir = Directory(directoryPath);
 
     if (!await dir.exists()) {
+      print('SkillLoader: Directory does not exist: $directoryPath');
       return [];
     }
 
@@ -28,7 +41,7 @@ class SkillLoader {
           final content = await skillFile.readAsString();
           final skill = Skill.parse(
             content,
-            entry.path.split('/').last,
+            entry.path.split(path.separator).last,
             entry.path,
           );
           skills.add(skill);
@@ -37,11 +50,9 @@ class SkillLoader {
         }
       }
 
-      // Sort by name
-      skills.sort((a, b) => a.frontmatter.name.compareTo(b.frontmatter.name));
       return skills;
     } catch (e) {
-      print('Error loading skills: $e');
+      print('Error loading skills from $directoryPath: $e');
       return [];
     }
   }

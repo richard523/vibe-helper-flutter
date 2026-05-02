@@ -141,6 +141,8 @@ class AppState with ChangeNotifier {
   // File watchers
   FileWatcher? _sessionWatcher;
   FileWatcher? _configWatcher;
+  FileWatcher? _skillsWatcher;
+  FileWatcher? _projectSkillsWatcher;
 
   Future<void> loadAll() async {
     print('AppState: Starting full reload...');
@@ -193,6 +195,22 @@ class AppState with ChangeNotifier {
         ]);
       },
     );
+    
+    _skillsWatcher = FileWatcher(
+      directoryPath: VibePaths.skillsDirectory,
+      onChange: () async {
+        print('AppState: Global skills directory changed, reloading...');
+        await _loadSkills();
+      },
+    );
+    
+    _projectSkillsWatcher = FileWatcher(
+      directoryPath: VibePaths.projectSkillsDirectory,
+      onChange: () async {
+        print('AppState: Project skills directory changed, reloading...');
+        await _loadSkills();
+      },
+    );
     print('AppState: File watchers started');
   }
 
@@ -200,8 +218,12 @@ class AppState with ChangeNotifier {
     print('AppState: Stopping file watchers...');
     _sessionWatcher?.stop();
     _configWatcher?.stop();
+    _skillsWatcher?.stop();
+    _projectSkillsWatcher?.stop();
     _sessionWatcher = null;
     _configWatcher = null;
+    _skillsWatcher = null;
+    _projectSkillsWatcher = null;
     print('AppState: File watchers stopped');
   }
 
