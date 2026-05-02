@@ -99,9 +99,7 @@ class DashboardScreen extends StatelessWidget {
                             agreed: appState.toolCallBreakdown['agreed'] ?? 0,
                             rejected: appState.toolCallBreakdown['rejected'] ?? 0,
                             failed: appState.toolCallBreakdown['failed'] ?? 0,
-                            succeeded: filteredSessions.fold(
-                              0, (sum, s) => sum + s.stats.toolCallsSucceeded
-                            ),
+                            succeeded: appState.toolCallBreakdown['succeeded'] ?? 0,
                           ),
                         ),
                       ),

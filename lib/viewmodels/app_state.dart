@@ -240,6 +240,7 @@ class AppState with ChangeNotifier {
       'agreed': filteredSessions.fold(0, (sum, s) => sum + s.stats.toolCallsAgreed),
       'rejected': filteredSessions.fold(0, (sum, s) => sum + s.stats.toolCallsRejected),
       'failed': filteredSessions.fold(0, (sum, s) => sum + s.stats.toolCallsFailed),
+      'succeeded': filteredSessions.fold(0, (sum, s) => sum + s.stats.toolCallsSucceeded),
     };
   }
 
