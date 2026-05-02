@@ -23,7 +23,10 @@ class SkillLoader {
     final dir = Directory(directoryPath);
 
     if (!await dir.exists()) {
-      print('SkillLoader: Directory does not exist: $directoryPath');
+      // Only log for global skills directory, not project-local (which is optional)
+      if (directoryPath == VibePaths.skillsDirectory) {
+        print('SkillLoader: Global skills directory does not exist: $directoryPath');
+      }
       return [];
     }
 

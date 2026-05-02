@@ -34,7 +34,10 @@ class FileWatcher {
       final exists = await dir.exists();
       
       if (!exists) {
-        print('FileWatcher: Directory does not exist: $directoryPath');
+        // Only log once when directory doesn't exist
+        if (_lastModification == null) {
+          print('FileWatcher: Directory does not exist: $directoryPath');
+        }
         return;
       }
 
