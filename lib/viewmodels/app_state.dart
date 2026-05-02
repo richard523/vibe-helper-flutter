@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import '../models/session.dart';
 import '../models/config.dart';
@@ -154,7 +155,7 @@ class AppState with ChangeNotifier {
     ]);
     isLoading = false;
     print('AppState: Full reload complete. Loaded ${sessions.length} sessions, ${skills.length} skills');
-    startWatching();
+    await startWatching();
   }
 
   Future<void> _loadSessions() async {
@@ -175,42 +176,58 @@ class AppState with ChangeNotifier {
     print('AppState: Skills updated (${skills.length} total)');
   }
 
-  void startWatching() {
+  void startWatching() async {
     print('AppState: Starting file watchers...');
-    _sessionWatcher = FileWatcher(
-      directoryPath: VibePaths.sessionLogsDirectory,
-      onChange: () async {
-        print('AppState: Session directory changed, reloading...');
-        await _loadSessions();
-      },
-    );
     
-    _configWatcher = FileWatcher(
-      directoryPath: VibePaths.vibeDirectory,
-      onChange: () async {
-        print('AppState: Config directory changed, reloading...');
-        await Future.wait([
-          _loadConfig(),
-          _loadSkills(),
-        ]);
-      },
-    );
+    // Only create watchers for directories that exist
+    final sessionDir = Directory(VibePaths.sessionLogsDirectory);
+    final vibeDir = Directory(VibePaths.vibeDirectory);
+    final skillsDir = Directory(VibePaths.skillsDirectory);
+    final projectSkillsDir = Directory(VibePaths.projectSkillsDirectory);
     
-    _skillsWatcher = FileWatcher(
-      directoryPath: VibePaths.skillsDirectory,
-      onChange: () async {
-        print('AppState: Global skills directory changed, reloading...');
-        await _loadSkills();
-      },
-    );
+    if (await sessionDir.exists()) {
+      _sessionWatcher = FileWatcher(
+        directoryPath: VibePaths.sessionLogsDirectory,
+        onChange: () async {
+          print('AppState: Session directory changed, reloading...');
+          await _loadSessions();
+        },
+      );
+    }
     
-    _projectSkillsWatcher = FileWatcher(
-      directoryPath: VibePaths.projectSkillsDirectory,
-      onChange: () async {
-        print('AppState: Project skills directory changed, reloading...');
-        await _loadSkills();
-      },
-    );
+    if (await vibeDir.exists()) {
+      _configWatcher = FileWatcher(
+        directoryPath: VibePaths.vibeDirectory,
+        onChange: () async {
+          print('AppState: Config directory changed, reloading...');
+          await Future.wait([
+            _loadConfig(),
+            _loadSkills(),
+          ]);
+        },
+      );
+    }
+    
+    if (await skillsDir.exists()) {
+      _skillsWatcher = FileWatcher(
+        directoryPath: VibePaths.skillsDirectory,
+        onChange: () async {
+          print('AppState: Global skills directory changed, reloading...');
+          await _loadSkills();
+        },
+      );
+    }
+    
+    if (await projectSkillsDir.exists()) {
+      _projectSkillsWatcher = FileWatcher(
+        directoryPath: VibePaths.projectSkillsDirectory,
+        onChange: () async {
+          print('AppState: Project skills directory changed, reloading...');
+          await _loadSkills();
+        },
+      );
+    }
+    
     print('AppState: File watchers started');
   }
 
