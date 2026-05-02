@@ -103,6 +103,20 @@ class SkillFrontmatter {
     'user-invocable': userInvocable,
     'tools': tools,
   };
+
+  String toYaml() {
+    final buffer = StringBuffer();
+    buffer.writeln('name: $name');
+    buffer.writeln('description: $description');
+    buffer.writeln('user-invocable: $userInvocable');
+    if (tools.isNotEmpty) {
+      buffer.writeln('tools:');
+      for (final tool in tools) {
+        buffer.writeln('  - $tool');
+      }
+    }
+    return buffer.toString();
+  }
 }
 
 class Skill {

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../models/skill.dart';
 import '../viewmodels/app_state.dart';
-import '../services/skill_loader.dart';
 import '../utils/vibe_paths.dart';
 import 'dart:io';
 import 'package:path/path.dart' as path;
@@ -74,7 +73,7 @@ class _SkillEditScreenState extends State<SkillEditScreen> {
       tools: tools,
     );
 
-    final skillContent = frontmatter.serialize() + '\n\n' + body;
+    final skillContent = '---\n${frontmatter.toYaml()}\n---\n\n$body';
 
     try {
       // Determine the directory for the skill
