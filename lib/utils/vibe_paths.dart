@@ -10,8 +10,27 @@ class VibePaths {
 
   static String get homeDir {
     if (_homeDirOverride.isNotEmpty) return _homeDirOverride;
-    // Use Platform.environment for HOME which handles cross-platform properly
-    return io.Platform.environment['HOME'] ?? '/home';
+    
+    // Try environment variables in platform order
+    // On Windows: USERPROFILE is the user's home directory
+    // On Unix: HOME is the user's home directory
+    final env = io.Platform.environment;
+    
+    if (io.Platform.isWindows) {
+      final userProfile = env['USERPROFILE'];
+      if (userProfile != null && userProfile.isNotEmpty) {
+        return userProfile;
+      }
+      final homeDrive = env['HOMEDRIVE'] ?? '';
+      final homePath = env['HOMEPATH'] ?? '';
+      final combined = homeDrive + homePath;
+      if (combined.isNotEmpty) {
+        return combined;
+      }
+      return 'C:\\Users';
+    } else {
+      return env['HOME'] ?? '/home';
+    }
   }
 
   static const String vibeDir = '.vibe';

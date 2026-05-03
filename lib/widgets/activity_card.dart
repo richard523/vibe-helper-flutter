@@ -182,7 +182,7 @@ class ActivityCard extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        spacing: 3,
+        
         children: heatmapWeeks.map((week) => _buildWeekColumn(
           week: week,
           now: utcNow,
@@ -200,7 +200,7 @@ class ActivityCard extends StatelessWidget {
     Function(Session)? onSessionSelected,
   }) {
     return Column(
-      spacing: 3,
+      
       mainAxisSize: MainAxisSize.min,
       children: week.map((cell) {
         // Don't draw box for future days or padding
