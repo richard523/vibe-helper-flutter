@@ -176,7 +176,7 @@ class AppState with ChangeNotifier {
     print('AppState: Skills updated (${skills.length} total)');
   }
 
-  void startWatching() async {
+  Future<void> startWatching() async {
     print('AppState: Starting file watchers...');
     
     // Only create watchers for directories that exist
