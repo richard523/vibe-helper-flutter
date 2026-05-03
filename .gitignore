@@ -11,6 +11,10 @@ flutter_assets/
 
 # Generated plugin dependencies
 .flutter-plugins-dependencies
+.flutter-plugins
+.packages
+pubspec.lock
+flutter_modules/
 
 # IDE
 .idea/
