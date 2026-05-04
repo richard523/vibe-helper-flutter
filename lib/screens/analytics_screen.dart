@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 
 import '../viewmodels/app_state.dart';
 import '../widgets/tool_usage_card.dart';
+import '../widgets/activity_heatmap.dart';
 import '../utils/formatters.dart';
 
 class AnalyticsScreen extends StatelessWidget {
@@ -97,30 +98,19 @@ class AnalyticsScreen extends StatelessWidget {
                   agreed: appState.toolCallBreakdown['agreed'] ?? 0,
                   rejected: appState.toolCallBreakdown['rejected'] ?? 0,
                   failed: appState.toolCallBreakdown['failed'] ?? 0,
+                  succeeded: appState.toolCallBreakdown['succeeded'] ?? 0,
                 ),
               ),
 
               const SizedBox(height: 24),
 
-              // Activity Heatmap placeholder
-              const Text(
-                'Activity Heatmap',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Card(
-                child: Padding(
-                  padding: EdgeInsets.all(32.0),
-                  child: Center(
-                    child: Text(
-                      'Activity heatmap coming soon',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                ),
+              // Activity Heatmap
+              ActivityHeatmap(
+                sessions: appState.filteredSessions,
+                onSessionSelected: (session) {
+                  appState.selectedSession = session;
+                  Navigator.pushNamed(context, '/session');
+                },
               ),
             ],
           ),

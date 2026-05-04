@@ -7,6 +7,7 @@ import 'screens/analytics_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/skills_screen.dart';
 import 'screens/session_detail_screen.dart';
+import 'screens/skill_edit_screen.dart';
 
 void main() {
   print('VibeHelper: Starting app...');

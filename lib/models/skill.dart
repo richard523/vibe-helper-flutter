@@ -17,6 +17,7 @@ class SkillFrontmatter {
     bool userInvocable = false;
     List<String> tools = [];
     bool inToolsList = false;
+    String? currentKey;
 
     for (final line in yaml.split('\n')) {
       final trimmed = line.trim();
@@ -28,14 +29,24 @@ class SkillFrontmatter {
           tools.add(trimmed.substring(2).trim());
           continue;
         }
-        inToolsList = false;
+        // End of tools list if we hit a new key
+        if (trimmed.contains(':')) {
+          inToolsList = false;
+        }
       }
 
       final colonIndex = trimmed.indexOf(':');
-      if (colonIndex < 0) continue;
+      if (colonIndex < 0) {
+        // Continuation of previous value (e.g., multi-line description)
+        if (currentKey == 'description') {
+          description = description.isNotEmpty ? '$description\n$trimmed' : trimmed;
+        }
+        continue;
+      }
 
       final key = trimmed.substring(0, colonIndex).trim().toLowerCase();
       var value = trimmed.substring(colonIndex + 1).trim();
+      currentKey = key;
 
       // Remove quotes if present
       if ((value.startsWith('"') && value.endsWith('"')) ||
@@ -51,7 +62,7 @@ class SkillFrontmatter {
           description = value;
           break;
         case 'user-invocable':
-          userInvocable = value.toLowerCase() == 'true';
+          userInvocable = value.toLowerCase() == 'true' || value == '1';
           break;
         case 'tools':
           if (value.isEmpty) {
@@ -65,6 +76,9 @@ class SkillFrontmatter {
                   .map((s) => s.trim().replaceAll('"', '').replaceAll("'", ''))
                   .where((s) => s.isNotEmpty)
                   .toList();
+            } else if (value.isNotEmpty) {
+              // Single tool or space-separated tools
+              tools = value.split(RegExp(r'[,\s]+')).where((s) => s.isNotEmpty).toList();
             }
           }
           break;
@@ -89,6 +103,20 @@ class SkillFrontmatter {
     'user-invocable': userInvocable,
     'tools': tools,
   };
+
+  String toYaml() {
+    final buffer = StringBuffer();
+    buffer.writeln('name: $name');
+    buffer.writeln('description: $description');
+    buffer.writeln('user-invocable: $userInvocable');
+    if (tools.isNotEmpty) {
+      buffer.writeln('tools:');
+      for (final tool in tools) {
+        buffer.writeln('  - $tool');
+      }
+    }
+    return buffer.toString();
+  }
 }
 
 class Skill {
