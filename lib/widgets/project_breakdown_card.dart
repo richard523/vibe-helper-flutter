@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 import '../models/session.dart';
 import '../utils/formatters.dart';
 
-class ProjectBreakdownCard extends StatelessWidget {
+class ProjectBreakdownCard extends StatefulWidget {
   final List<Session> sessions;
   final String title;
   final String unit;
@@ -18,14 +17,21 @@ class ProjectBreakdownCard extends StatelessWidget {
     required this.color,
   });
 
+  @override
+  State<ProjectBreakdownCard> createState() => _ProjectBreakdownCardState();
+}
+
+class _ProjectBreakdownCardState extends State<ProjectBreakdownCard> {
+  bool _expanded = false;
+
   List<MapEntry<String, double>> get _breakdown {
     final map = <String, double>{};
-    for (final s in sessions) {
-      final value = unit == 'cost'
+    for (final s in widget.sessions) {
+      final value = widget.unit == 'cost'
           ? s.stats.sessionCost
-          : unit == 'tokens'
+          : widget.unit == 'tokens'
               ? s.stats.sessionTotalLlmTokens.toDouble()
-              : 1.0; // sessions
+              : 1.0;
       map.update(s.projectName, (v) => v + value, ifAbsent: () => value);
     }
     return map.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
@@ -44,8 +50,8 @@ class ProjectBreakdownCard extends StatelessWidget {
     }
 
     final maxVal = data.first.value;
-    // Show top 8 projects
-    final display = data.take(8).toList();
+    final displayCount = _expanded ? data.length : 8;
+    final display = data.take(displayCount).toList();
 
     return Card(
       child: Padding(
@@ -54,11 +60,32 @@ class ProjectBreakdownCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(title,
-              style: const TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w600)),
+            Row(
+              children: [
+                Text(widget.title,
+                  style: const TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w600)),
+                const Spacer(),
+                if (data.length > 8)
+                  TextButton.icon(
+                    onPressed: () => setState(() => _expanded = !_expanded),
+                    icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more, size: 16),
+                    label: Text(
+                      _expanded
+                          ? 'Show top 8'
+                          : '+ ${data.length - 8} more',
+                      style: const TextStyle(fontSize: 11),
+                    ),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                  ),
+              ],
+            ),
             const SizedBox(height: 12),
             ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 260),
+              constraints: BoxConstraints(maxHeight: _expanded ? 600 : 260),
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: display.length,
@@ -84,8 +111,8 @@ class ProjectBreakdownCard extends StatelessWidget {
                             child: LinearProgressIndicator(
                               value: pct,
                               minHeight: 14,
-                              backgroundColor: color.withOpacity(0.1),
-                              color: color,
+                              backgroundColor: widget.color.withOpacity(0.1),
+                              color: widget.color,
                             ),
                           ),
                         ),
@@ -93,9 +120,9 @@ class ProjectBreakdownCard extends StatelessWidget {
                         SizedBox(
                           width: 70,
                           child: Text(
-                            unit == 'cost'
+                            widget.unit == 'cost'
                                 ? '\$${formatDoubleWithCommas(entry.value, 2)}'
-                                : unit == 'tokens'
+                                : widget.unit == 'tokens'
                                     ? _formatTokens(entry.value.toInt())
                                     : entry.value.toInt().toString(),
                             style: const TextStyle(fontSize: 11, color: Colors.grey),
@@ -108,12 +135,6 @@ class ProjectBreakdownCard extends StatelessWidget {
                 },
               ),
             ),
-            if (data.length > 8)
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text('+ ${data.length - 8} more projects',
-                  style: const TextStyle(fontSize: 10, color: Colors.grey)),
-              ),
           ],
         ),
       ),
