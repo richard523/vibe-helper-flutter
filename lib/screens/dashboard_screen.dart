@@ -20,7 +20,7 @@ class DashboardScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Vibe Helper'),
+        title: const Text('vibe-cli dashboard'),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),

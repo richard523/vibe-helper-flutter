@@ -63,7 +63,7 @@ sudo pacman -Rns flutter dart
 ## Revisiting this repo later
 
 ```bash
-cd ~/SynologyDrive/Development/random/flutter-vibe-helper
+cd ~/SynologyDrive/Development/random/vibe_cli_dashboard
 flutter pub get
 flutter test            # 5 tests, ~4s
 flutter run -d linux   # desktop app
@@ -89,36 +89,36 @@ error while loading shared libraries: libflutter_linux_gtk.so: cannot open share
 flutter build linux --release
 
 # Install full bundle
-mkdir -p ~/.local/share/flutter-vibe-helper
-cp -a build/linux/x64/release/bundle/* ~/.local/share/flutter-vibe-helper/
+mkdir -p ~/.local/share/vibe_cli_dashboard
+cp -a build/linux/x64/release/bundle/* ~/.local/share/vibe_cli_dashboard/
 
 # Desktop entry
-cat > ~/.local/share/applications/flutter_vibe_helper.desktop <<'ENTRY'
+cat > ~/.local/share/applications/vibe_cli_dashboard.desktop <<'ENTRY'
 [Desktop Entry]
-Name=Vibe Helper
+Name=vibe-cli dashboard
 Comment=A cross-platform dashboard for Mistral Vibe CLI analytics
-Exec=/home/chardlinux/.local/share/flutter-vibe-helper/flutter_vibe_helper
-Icon=flutter_vibe_helper
+Exec=/home/chardlinux/.local/share/vibe_cli_dashboard/vibe_cli_dashboard
+Icon=vibe_cli_dashboard
 Terminal=false
 Type=Application
 Categories=Utility;Development;
-StartupWMClass=flutter_vibe_helper
+StartupWMClass=vibe_cli_dashboard
 ENTRY
 
 # Icon
-cp assets/vibe-helper-icon.png ~/.local/share/icons/hicolor/512x512/apps/flutter_vibe_helper.png
+cp assets/vibe-helper-icon.png ~/.local/share/icons/hicolor/512x512/apps/vibe_cli_dashboard.png
 update-desktop-database ~/.local/share/applications/
 gtk-update-icon-cache -f ~/.local/share/icons/hicolor
 ```
 
 ### Stale system install (needs sudo)
 
-An old build lives at `/opt/flutter-vibe-helper/` with a desktop entry at
-`/usr/share/applications/flutter-vibe-helper.desktop`. Remove with:
+An old build lives at `/opt/vibe_cli_dashboard/` with a desktop entry at
+`/usr/share/applications/vibe_cli_dashboard.desktop`. Remove with:
 
 ```bash
-sudo rm -rf /opt/flutter-vibe-helper
-sudo rm /usr/share/applications/flutter-vibe-helper.desktop
+sudo rm -rf /opt/vibe_cli_dashboard
+sudo rm /usr/share/applications/vibe_cli_dashboard.desktop
 ```
 
 ## Noise you can ignore

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_vibe_helper/models/message.dart';
+import 'package:vibe_cli_dashboard/models/message.dart';
 
 void main() {
   group('SessionMessage.fromJson', () {

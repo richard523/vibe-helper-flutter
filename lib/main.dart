@@ -9,22 +9,22 @@ import 'screens/skills_screen.dart';
 import 'screens/session_detail_screen.dart';
 
 void main() {
-  print('VibeHelper: Starting app...');
+  print('VibeCliDashboard: Starting app...');
   runApp(
     ChangeNotifierProvider(
       create: (context) => AppState()..loadAll(),
-      child: const VibeHelperApp(),
+      child: const VibeCliDashboardApp(),
     ),
   );
 }
 
-class VibeHelperApp extends StatelessWidget {
-  const VibeHelperApp({super.key});
+class VibeCliDashboardApp extends StatelessWidget {
+  const VibeCliDashboardApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Vibe Helper',
+      title: 'vibe-cli dashboard',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
