@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 import '../viewmodels/app_state.dart';
 import '../widgets/tool_usage_card.dart';
+import '../widgets/enhanced_heatmap.dart';
+import '../widgets/project_breakdown_card.dart';
 import '../utils/formatters.dart';
 
 class AnalyticsScreen extends StatelessWidget {
@@ -12,10 +13,17 @@ class AnalyticsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<AppState>();
+    final sessions = appState.filteredSessions;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Analytics'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () => appState.loadAll(),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -24,50 +32,46 @@ class AnalyticsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Total Stats
-              const Text(
-                'Overview',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
+              // Overview stats row
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
                     children: [
                       Expanded(
-                        child: _buildOverviewStat(
-                          'Total Cost',
+                        child: _buildStatTile(
+                          context,
+                          'Total Spend',
                           '\$${formatDoubleWithCommas(appState.totalCost, 2)}',
                           Icons.monetization_on,
-                          Colors.green,
+                          const Color(0xFF6B46C1),
                         ),
                       ),
                       Expanded(
-                        child: _buildOverviewStat(
+                        child: _buildStatTile(
+                          context,
                           'Total Tokens',
-                          formatNumberWithCommas(appState.totalTokens),
+                          _formatTokens(appState.totalTokens),
                           Icons.text_fields,
-                          Colors.blue,
+                          const Color(0xFF06B6D4),
                         ),
                       ),
                       Expanded(
-                        child: _buildOverviewStat(
+                        child: _buildStatTile(
+                          context,
                           'Sessions',
                           formatNumberWithCommas(appState.totalSessions),
                           Icons.history,
-                          Colors.purple,
+                          const Color(0xFF10B981),
                         ),
                       ),
                       Expanded(
-                        child: _buildOverviewStat(
+                        child: _buildStatTile(
+                          context,
                           'Tool Calls',
                           formatNumberWithCommas(appState.totalToolCalls),
                           Icons.build,
-                          Colors.orange,
+                          const Color(0xFFF59E0B),
                         ),
                       ),
                     ],
@@ -75,50 +79,75 @@ class AnalyticsScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
 
-              // Cost by Project Chart
-              const Text(
-                'Cost by Project',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+              // Cost & Token breakdown by project side by side
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: ProjectBreakdownCard(
+                      sessions: sessions,
+                      title: 'Cost by Project',
+                      unit: 'cost',
+                      color: const Color(0xFF6B46C1),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ProjectBreakdownCard(
+                      sessions: sessions,
+                      title: 'Tokens by Project',
+                      unit: 'tokens',
+                      color: const Color(0xFF06B6D4),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 8),
-              _buildCostByProjectChart(appState.costByProject),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
 
-              // Tool Usage
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: double.infinity),
-                child: ToolUsageCard(
-                  agreed: appState.toolCallBreakdown['agreed'] ?? 0,
-                  rejected: appState.toolCallBreakdown['rejected'] ?? 0,
-                  failed: appState.toolCallBreakdown['failed'] ?? 0,
-                ),
+              // Tool usage + sessions by project side by side
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: ToolUsageCard(
+                      agreed: appState.toolCallBreakdown['agreed'] ?? 0,
+                      rejected: appState.toolCallBreakdown['rejected'] ?? 0,
+                      failed: appState.toolCallBreakdown['failed'] ?? 0,
+                      succeeded: sessions.fold(0, (sum, s) => sum + s.stats.toolCallsSucceeded),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ProjectBreakdownCard(
+                      sessions: sessions,
+                      title: 'Sessions by Project',
+                      unit: 'sessions',
+                      color: const Color(0xFF10B981),
+                    ),
+                  ),
+                ],
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
 
-              // Activity Heatmap placeholder
+              // Enhanced heatmap
               const Text(
                 'Activity Heatmap',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 8),
-              const Card(
+              Card(
                 child: Padding(
-                  padding: EdgeInsets.all(32.0),
-                  child: Center(
-                    child: Text(
-                      'Activity heatmap coming soon',
-                      style: TextStyle(color: Colors.grey),
-                    ),
+                  padding: const EdgeInsets.all(16.0),
+                  child: EnhancedHeatmap(
+                    sessions: sessions,
+                    onSessionSelected: (session) {
+                      appState.selectedSession = session;
+                      Navigator.pushNamed(context, '/session');
+                    },
                   ),
                 ),
               ),
@@ -129,97 +158,34 @@ class AnalyticsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildOverviewStat(String label, String value, IconData icon, Color color) {
+  Widget _buildStatTile(BuildContext context, String label, String value, IconData icon, Color color) {
     return Column(
       children: [
-        Icon(icon, color: color, size: 28),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
+        Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.12),
+            borderRadius: BorderRadius.circular(10),
           ),
+          child: Icon(icon, color: color, size: 22),
+        ),
+        const SizedBox(height: 8),
+        Text(value,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
         const SizedBox(height: 2),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 10,
-            color: Colors.grey,
-          ),
+        Text(label,
+          style: const TextStyle(fontSize: 10, color: Colors.grey),
           textAlign: TextAlign.center,
         ),
       ],
     );
   }
 
-  Widget _buildCostByProjectChart(List<MapEntry<String, double>> data) {
-    if (data.isEmpty) {
-      return const SizedBox(
-        height: 200,
-        child: Card(
-          child: Center(
-            child: Text('No data available'),
-          ),
-        ),
-      );
-    }
-
-    return SizedBox(
-      height: 200,
-      child: BarChart(
-      BarChartData(
-        alignment: BarChartAlignment.spaceAround,
-        maxY: data.first.value + (data.first.value * 0.1),
-        barTouchData: BarTouchData(enabled: false),
-        titlesData: FlTitlesData(
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 40,
-              getTitlesWidget: (value, meta) => Text(
-                '\$${formatDoubleWithCommas(value, 2)}',
-                style: const TextStyle(fontSize: 10),
-              ),
-            ),
-          ),
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 60,
-              getTitlesWidget: (value, meta) => Text(
-                data[value.toInt()].key,
-                style: const TextStyle(
-                  fontSize: 10,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                maxLines: 2,
-              ),
-            ),
-          ),
-        ),
-        gridData: FlGridData(show: false),
-        borderData: FlBorderData(show: false),
-        barGroups: data
-            .asMap()
-            .entries
-            .map(
-              (e) => BarChartGroupData(
-                x: e.key,
-                barRods: [
-                  BarChartRodData(
-                    toY: e.value.value,
-                    width: 12,
-                    color: Colors.purple,
-                    borderRadius: BorderRadius.zero,
-                  ),
-                ],
-              ),
-            )
-            .toList(),
-      ),
-      ),
-    );
+  String _formatTokens(int tokens) {
+    if (tokens >= 1000000) return '${formatDoubleWithCommas(tokens / 1000000, 1)}M';
+    if (tokens >= 1000) return '${formatDoubleWithCommas(tokens / 1000, 1)}K';
+    return formatNumberWithCommas(tokens);
   }
 }
