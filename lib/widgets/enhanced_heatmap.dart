@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/session.dart';
 import '../utils/formatters.dart';
 
-class EnhancedHeatmap extends StatelessWidget {
+class EnhancedHeatmap extends StatefulWidget {
   final List<Session> sessions;
   final Function(Session)? onSessionSelected;
 
@@ -14,15 +14,38 @@ class EnhancedHeatmap extends StatelessWidget {
   });
 
   @override
+  State<EnhancedHeatmap> createState() => _EnhancedHeatmapState();
+}
+
+class _EnhancedHeatmapState extends State<EnhancedHeatmap> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (sessions.isEmpty) {
+    if (widget.sessions.isEmpty) {
       return const Center(
         child: Text('No activity', style: TextStyle(color: Colors.grey)),
       );
     }
 
     // Sort newest first
-    final sorted = [...sessions]..sort((a, b) => b.startTime.compareTo(a.startTime));
+    final sorted = [...widget.sessions]..sort((a, b) => b.startTime.compareTo(a.startTime));
 
     // Aggregate per day: count, total cost, most expensive session, total tokens
     final dayData = <DateTime, _DayAgg>{};
@@ -42,7 +65,7 @@ class EnhancedHeatmap extends StatelessWidget {
     // Date range
     final dates = dayData.keys.toList();
     final minDate = dates.reduce((a, b) => a.isBefore(b) ? a : b);
-    final maxDate = dates.reduce((a, b) => a.isAfter(b) ? b : b);
+    final maxDate = dates.reduce((a, b) => a.isAfter(b) ? a : b);
     final globalMaxCost = dayData.values.map((e) => e.totalCost).reduce((a, b) => a > b ? a : b);
 
     // Build cells (minDate..maxDate inclusive)
@@ -107,6 +130,7 @@ class EnhancedHeatmap extends StatelessWidget {
             // Scrollable grid
             Expanded(
               child: SingleChildScrollView(
+                controller: _scrollController,
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   spacing: 3,
@@ -138,22 +162,36 @@ class EnhancedHeatmap extends StatelessWidget {
   List<Widget> _buildMonthLabels(List<List<_DayAgg?>> weeks) {
     final labels = <Widget>[];
     String? lastMonth;
-    for (final week in weeks) {
-      final firstDay = week.firstWhere((c) => c != null, orElse: () => null);
+    int weekCount = 0;
+
+    for (var i = 0; i < weeks.length; i++) {
+      final week = weeks[i];
+      // Find first non-null cell in this week
+      _DayAgg? firstDay;
+      for (final c in week) {
+        if (c != null) { firstDay = c; break; }
+      }
+
       if (firstDay != null) {
         final monthName = _monthName(firstDay.date.month);
         if (monthName != lastMonth) {
+          // Flush previous label with accumulated width
+          if (weekCount > 0) {
+            labels.add(SizedBox(width: weekCount * 17.0));
+          }
           labels.add(SizedBox(
-            width: 17, // cell width + spacing
+            width: 17,
             child: Text(monthName, style: const TextStyle(fontSize: 9, color: Colors.grey)),
           ));
           lastMonth = monthName;
-        } else {
-          labels.add(const SizedBox(width: 17));
+          weekCount = 0;
         }
-      } else {
-        labels.add(const SizedBox(width: 17));
       }
+      weekCount++;
+    }
+    // Flush final
+    if (weekCount > 0) {
+      labels.add(SizedBox(width: weekCount * 17.0));
     }
     return labels;
   }
@@ -179,9 +217,9 @@ class EnhancedHeatmap extends StatelessWidget {
             'Tokens: ${formatNumberWithCommas(cell.totalTokens)}'
             '${cell.mostExpensive != null ? '\nTop session: \$${cell.mostExpensive!.stats.sessionCost.toStringAsFixed(2)} — ${cell.mostExpensive!.projectName}' : ''}';
 
-        if (cell.mostExpensive != null && onSessionSelected != null) {
+        if (cell.mostExpensive != null && widget.onSessionSelected != null) {
           final session = cell.mostExpensive!;
-          final callback = onSessionSelected!;
+          final callback = widget.onSessionSelected!;
           return MouseRegion(
             cursor: SystemMouseCursors.click,
             child: Tooltip(
