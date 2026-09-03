@@ -153,7 +153,27 @@ class TokenCard extends StatelessWidget {
               ),
             ),
           ),
-          bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 28,
+              interval: sorted.length > 1 ? (sorted.length - 1).toDouble().ceilToDouble() / 4 : 1,
+              getTitlesWidget: (value, meta) {
+                final idx = value.toInt();
+                if (idx < 0 || idx >= sorted.length) return const SizedBox();
+                final s = sorted[idx];
+                final m = s.startTime.month.toString().padLeft(2, '0');
+                final d = s.startTime.day.toString().padLeft(2, '0');
+                return Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    '$m/$d',
+                    style: const TextStyle(fontSize: 9, color: Colors.grey),
+                  ),
+                );
+              },
+            ),
+          ),
           topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
           rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
         ),
