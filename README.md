@@ -6,16 +6,18 @@
 
 <p align="center">A Flutter-based cross-platform (mobile + desktop + web) dashboard for Mistral Vibe CLI analytics and management.</p>
 
+<img width="4032" height="3024" alt="IMG_8921" src="https://github.com/user-attachments/assets/994056d4-49da-4a1c-bfa9-1b1c8610ee48" />
+
 ## Platforms
 
 | Platform | Status |
 |----------|--------|
-| Android | ✅ Supported |
-| iOS | ✅ Supported |
-| Linux | ✅ Supported |
-| macOS | ✅ Supported |
+| Android | 🫩 not yet Supported |
+| iOS | 🫩 not yet Supported |
+| Linux | ✅ binaries only|
+| macOS | 🫩 not yetSupported |
 | Windows | ✅ Supported |
-| Web | ✅ Supported |
+| Web | 🫩 Not yet Supported |
 
 ## Quick Start
 

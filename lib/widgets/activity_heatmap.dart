@@ -1,37 +1,42 @@
 import 'package:flutter/material.dart';
 
 import '../models/session.dart';
-import '../utils/formatters.dart';
 
-class ActivityCard extends StatelessWidget {
+class ActivityHeatmap extends StatelessWidget {
   final List<Session> sessions;
   final Function(Session)? onSessionSelected;
 
-  const ActivityCard({
+  const ActivityHeatmap({
     super.key,
     required this.sessions,
     this.onSessionSelected,
   });
 
-  int get sessionCount => sessions.length;
-  Duration get totalDuration => Duration(
-    seconds: sessions.fold(0, (sum, s) => sum + s.duration.inSeconds),
-  );
-  Duration get avgDuration => sessionCount > 0 
-      ? Duration(seconds: totalDuration.inSeconds ~/ sessionCount)
-      : Duration.zero;
-
   @override
   Widget build(BuildContext context) {
-    // Sort sessions by startTime descending (newest first) to ensure most recent appears correctly
+    if (sessions.isEmpty) {
+      return const Card(
+        child: Padding(
+          padding: EdgeInsets.all(32.0),
+          child: Center(
+            child: Text(
+              'No activity data',
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
+        ),
+      );
+    }
+
+    // Sort sessions by startTime descending (newest first)
     final sortedSessions = [...sessions]..sort((a, b) => b.startTime.compareTo(a.startTime));
-    
-    // Group sessions by date (UTC) - pick most expensive session per day
+
+    // Group sessions by date (UTC) for first-session lookup
     final sessionsByDate = <DateTime, Session>{};
     for (final session in sortedSessions) {
       final dateKey = DateTime.utc(session.startTime.year, session.startTime.month, session.startTime.day);
-      final existing = sessionsByDate[dateKey];
-      if (existing == null || session.stats.sessionCost > existing.stats.sessionCost) {
+      // Keep the first (newest) session for each date
+      if (!sessionsByDate.containsKey(dateKey)) {
         sessionsByDate[dateKey] = session;
       }
     }
@@ -41,57 +46,17 @@ class ActivityCard extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // Header
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Activity',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      '${formatNumberWithCommas(sessionCount)} sessions',
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF10B981),
-                      ),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      'avg ${_formatDuration(avgDuration)}',
-                      style: const TextStyle(
-                        fontSize: 11,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Text(
-                      'total ${_formatDuration(totalDuration)}',
-                      style: const TextStyle(
-                        fontSize: 11,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+            const Text(
+              'Activity Heatmap',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const SizedBox(height: 12),
-            
             // Heatmap - horizontal scroll, weeks as vertical columns
             // Height: 7 cells * 14px + 6 spacings * 3px = 116px
             SizedBox(
@@ -99,6 +64,8 @@ class ActivityCard extends StatelessWidget {
               child: _buildHeatmap(
                 sessionsByDate: sessionsByDate,
                 now: DateTime.now().toUtc(),
+                sessions: sessions,
+                onSessionSelected: onSessionSelected,
               ),
             ),
           ],
@@ -107,33 +74,13 @@ class ActivityCard extends StatelessWidget {
     );
   }
 
-  String _formatDuration(Duration duration) {
-    final hours = duration.inHours;
-    final minutes = duration.inMinutes.remainder(60);
-    final seconds = duration.inSeconds.remainder(60);
-    
-    if (hours > 0) {
-      return '${hours}h ${minutes}m';
-    } else if (minutes > 0) {
-      return '${minutes}m ${seconds}s';
-    } else {
-      return '${seconds}s';
-    }
-  }
-
   Widget _buildHeatmap({
     required Map<DateTime, Session> sessionsByDate,
     required DateTime now,
+    required List<Session> sessions,
+    Function(Session)? onSessionSelected,
   }) {
     final utcNow = now.toUtc();
-    if (sessions.isEmpty) {
-      return const Center(
-        child: Text(
-          'No activity',
-          style: TextStyle(color: Colors.grey),
-        ),
-      );
-    }
 
     // Get date range - normalize to UTC midnight for consistent date keys
     final dates = sessions.map((s) => DateTime.utc(s.startTime.year, s.startTime.month, s.startTime.day)).toList();
@@ -182,7 +129,7 @@ class ActivityCard extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        
+        spacing: 3,
         children: heatmapWeeks.map((week) => _buildWeekColumn(
           week: week,
           now: utcNow,
@@ -200,7 +147,7 @@ class ActivityCard extends StatelessWidget {
     Function(Session)? onSessionSelected,
   }) {
     return Column(
-      
+      spacing: 3,
       mainAxisSize: MainAxisSize.min,
       children: week.map((cell) {
         // Don't draw box for future days or padding
@@ -208,49 +155,29 @@ class ActivityCard extends StatelessWidget {
           return Container(width: 14, height: 14);
         }
         
-        // Find most expensive session for this date
+        // Find first session for this date
         final session = cell.date != null ? sessionsByDate[cell.date] : null;
-        final dateLabel = cell.date != null
-            ? '${cell.date!.year}-${cell.date!.month.toString().padLeft(2, '0')}-${cell.date!.day.toString().padLeft(2, '0')}'
-            : '';
-        final costLabel = session != null
-            ? '\$${session.stats.sessionCost.toStringAsFixed(2)}'
-            : '';
-        final tooltip = session != null
-            ? '$dateLabel\nMost expensive: $costLabel\n${cell.count} session${cell.count > 1 ? 's' : ''} — click to view'
-            : '$dateLabel\nNo sessions';
         
         if (session != null && onSessionSelected != null) {
-          return MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: Tooltip(
-              message: tooltip,
-              waitDuration: const Duration(milliseconds: 200),
-              child: GestureDetector(
-                onTap: () => onSessionSelected(session),
-                child: Container(
-                  width: 14,
-                  height: 14,
-                  decoration: BoxDecoration(
-                    color: _colorForCount(cell.count),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
+          return GestureDetector(
+            onTap: () => onSessionSelected(session),
+            child: Container(
+              width: 14,
+              height: 14,
+              decoration: BoxDecoration(
+                color: _colorForCount(cell.count),
+                borderRadius: BorderRadius.circular(2),
               ),
             ),
           );
         }
         
-        return Tooltip(
-          message: tooltip,
-          waitDuration: const Duration(milliseconds: 200),
-          child: Container(
-            width: 14,
-            height: 14,
-            decoration: BoxDecoration(
-              color: _colorForCount(cell.count),
-              borderRadius: BorderRadius.circular(2),
-            ),
+        return Container(
+          width: 14,
+          height: 14,
+          decoration: BoxDecoration(
+            color: _colorForCount(cell.count),
+            borderRadius: BorderRadius.circular(2),
           ),
         );
       }).toList(),
