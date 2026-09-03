@@ -72,6 +72,55 @@ flutter run -d linux   # desktop app
 If `which flutter` ever resolves to `/usr/bin/flutter` again, the PATH order
 changed. Re-export or check `~/.config/fish/config.fish`.
 
+## Desktop app installation
+
+A Flutter Linux release bundle is not a standalone binary — it needs `lib/`
+(shared libraries like `libflutter_linux_gtk.so`) and `data/` alongside the
+executable. Copying just the binary to `~/.local/bin` will fail with:
+
+```
+error while loading shared libraries: libflutter_linux_gtk.so: cannot open shared object file
+```
+
+### Working user install (no sudo needed)
+
+```bash
+# Build
+flutter build linux --release
+
+# Install full bundle
+mkdir -p ~/.local/share/flutter-vibe-helper
+cp -a build/linux/x64/release/bundle/* ~/.local/share/flutter-vibe-helper/
+
+# Desktop entry
+cat > ~/.local/share/applications/flutter_vibe_helper.desktop <<'ENTRY'
+[Desktop Entry]
+Name=Vibe Helper
+Comment=A cross-platform dashboard for Mistral Vibe CLI analytics
+Exec=/home/chardlinux/.local/share/flutter-vibe-helper/flutter_vibe_helper
+Icon=flutter_vibe_helper
+Terminal=false
+Type=Application
+Categories=Utility;Development;
+StartupWMClass=flutter_vibe_helper
+ENTRY
+
+# Icon
+cp assets/vibe-helper-icon.png ~/.local/share/icons/hicolor/512x512/apps/flutter_vibe_helper.png
+update-desktop-database ~/.local/share/applications/
+gtk-update-icon-cache -f ~/.local/share/icons/hicolor
+```
+
+### Stale system install (needs sudo)
+
+An old build lives at `/opt/flutter-vibe-helper/` with a desktop entry at
+`/usr/share/applications/flutter-vibe-helper.desktop`. Remove with:
+
+```bash
+sudo rm -rf /opt/flutter-vibe-helper
+sudo rm /usr/share/applications/flutter-vibe-helper.desktop
+```
+
 ## Noise you can ignore
 
 - `file_picker` warnings about missing inline implementations for
