@@ -111,31 +111,27 @@ class TokenCard extends StatelessWidget {
     // Sort by date
     final sorted = [...sessions]..sort((a, b) => a.startTime.compareTo(b.startTime));
 
-    // Create data points for each session (input and output as separate bars would need grouped chart)
-    // For simplicity, showing total tokens per session
+    // One bar per session showing total tokens
     final spots = sorted.asMap().entries.map((e) {
+      final s = sorted[e.key];
       return BarChartGroupData(
         x: e.key,
         barRods: [
           BarChartRodData(
-            toY: sorted[e.key].stats.sessionPromptTokens.toDouble(),
-            width: 8,
+            toY: (s.stats.sessionPromptTokens + s.stats.sessionCompletionTokens).toDouble(),
+            width: 16,
             color: Color(0xFF06B6D4).withOpacity(0.7),
             borderRadius: BorderRadius.zero,
           ),
-          BarChartRodData(
-            toY: sorted[e.key].stats.sessionCompletionTokens.toDouble(),
-            width: 8,
-            color: Color(0xFF6B46C1).withOpacity(0.7),
-            borderRadius: BorderRadius.zero,
-          ),
         ],
-        barsSpace: 2,
       );
     }).toList();
 
     final rawMaxY = sorted.map((s) => (s.stats.sessionPromptTokens + s.stats.sessionCompletionTokens).toDouble()).reduce((a, b) => a > b ? a : b);
     final maxY = rawMaxY > 0 ? rawMaxY : 1.0;
+
+    // Show ~4 labels, at least 1 apart
+    final labelInterval = sorted.length > 4 ? (sorted.length / 4).ceil() : 1;
 
     return BarChart(
       BarChartData(
@@ -146,7 +142,7 @@ class TokenCard extends StatelessWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 28,
+              reservedSize: 40,
               getTitlesWidget: (value, meta) => Text(
                 _formatTokens(value.toInt()),
                 style: const TextStyle(fontSize: 10, color: Colors.grey),
@@ -157,7 +153,7 @@ class TokenCard extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 28,
-              interval: sorted.length > 1 ? (sorted.length - 1).toDouble().ceilToDouble() / 4 : 1,
+              interval: labelInterval.toDouble(),
               getTitlesWidget: (value, meta) {
                 final idx = value.toInt();
                 if (idx < 0 || idx >= sorted.length) return const SizedBox();
@@ -181,11 +177,7 @@ class TokenCard extends StatelessWidget {
         gridData: FlGridData(
           show: true,
           horizontalInterval: maxY > 0 ? (maxY / 4).ceilToDouble() : 1,
-          getDrawingVerticalLine: (value) => const FlLine(
-            color: Colors.grey,
-            strokeWidth: 0.5,
-            dashArray: [4],
-          ),
+          drawVerticalLine: false,
           getDrawingHorizontalLine: (value) => FlLine(
             color: Colors.grey.withOpacity(0.2),
             strokeWidth: 0.5,
