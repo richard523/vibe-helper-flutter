@@ -78,11 +78,9 @@ class TokenCard extends StatelessWidget {
             // Token type filter tabs
             // (For now, just show the chart with both)
             // TODO: Add filter tabs for Both/Input/Output
-            Flexible(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 180),
-                child: _buildTokenBarChart(),
-              ),
+            SizedBox(
+              height: 180,
+              child: _buildTokenBarChart(),
             ),
           ],
         ),
@@ -136,7 +134,8 @@ class TokenCard extends StatelessWidget {
       );
     }).toList();
 
-    final maxY = sorted.map((s) => (s.stats.sessionPromptTokens + s.stats.sessionCompletionTokens).toDouble()).reduce((a, b) => a > b ? a : b);
+    final rawMaxY = sorted.map((s) => (s.stats.sessionPromptTokens + s.stats.sessionCompletionTokens).toDouble()).reduce((a, b) => a > b ? a : b);
+    final maxY = rawMaxY > 0 ? rawMaxY : 1.0;
 
     return BarChart(
       BarChartData(
