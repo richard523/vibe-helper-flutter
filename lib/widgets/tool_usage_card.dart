@@ -17,15 +17,17 @@ class ToolUsageCard extends StatelessWidget {
     this.succeeded = 0,
   });
 
-  int get total => agreed + rejected + failed + succeeded;
+  int get total => agreed + rejected;
 
   @override
   Widget build(BuildContext context) {
-    // Only show categories with data
+    // Agreed includes succeeded + failed; remaining are agreed-but-unresolved
+    final unresolved = (agreed - succeeded - failed).clamp(0, agreed);
     final chartData = [
       if (succeeded > 0) _ChartItem('Succeeded', succeeded, Colors.green),
-      if (rejected > 0) _ChartItem('Rejected', rejected, Colors.orange),
       if (failed > 0) _ChartItem('Failed', failed, Colors.red),
+      if (unresolved > 0) _ChartItem('Agreed', unresolved, Colors.blue),
+      if (rejected > 0) _ChartItem('Rejected', rejected, Colors.orange),
     ];
 
     return Card(
@@ -65,6 +67,14 @@ class ToolUsageCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    if (succeeded > 0)
+                      Text(
+                        '${formatNumberWithCommas(succeeded)} succeeded',
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.green,
+                        ),
+                      ),
                     if (rejected > 0)
                       Text(
                         '${formatNumberWithCommas(rejected)} rejected',
@@ -102,6 +112,14 @@ class ToolUsageCard extends StatelessWidget {
                               value: item.count.toDouble(),
                               color: item.color,
                               radius: 16,
+                              title: total > 0
+                                  ? '${(item.count / total * 100).round()}%'
+                                  : '',
+                              titleStyle: const TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             )
                           ).toList(),
                           borderData: FlBorderData(show: false),

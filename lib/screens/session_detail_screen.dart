@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../viewmodels/app_state.dart';
-import '../models/session.dart';
 import '../models/message.dart';
 import '../utils/formatters.dart';
 
@@ -266,14 +265,18 @@ class SessionDetailScreen extends StatelessWidget {
 
   Widget _buildMessageCard(SessionMessage msg) {
     final isUser = msg.isUser;
-    final isTool = msg.isToolCall;
-    
+    final isToolReq = msg.isToolRequest;
+    final isToolRes = msg.isToolResult;
+
     Color borderColor;
     String roleLabel;
-    
-    if (isTool) {
-      borderColor = Colors.orange;
-      roleLabel = msg.toolName ?? 'Tool';
+
+    if (isToolReq) {
+      borderColor = Colors.amber;
+      roleLabel = msg.toolName ?? 'Tool Call';
+    } else if (isToolRes) {
+      borderColor = Colors.deepOrange;
+      roleLabel = msg.toolName ?? 'Tool Result';
     } else if (isUser) {
       borderColor = Colors.blue;
       roleLabel = 'User';
@@ -323,7 +326,15 @@ class SessionDetailScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            if (isTool) ...[
+            // Tool request: show arguments block (+ any assistant text)
+            if (isToolReq) ...[
+              if (msg.content.isNotEmpty) ...[
+                Text(
+                  msg.content,
+                  style: const TextStyle(fontSize: 14),
+                ),
+                const SizedBox(height: 8),
+              ],
               if (msg.toolArguments != null && msg.toolArguments!.isNotEmpty) ...[
                 Container(
                   padding: const EdgeInsets.all(8),
@@ -332,16 +343,18 @@ class SessionDetailScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    'Args: ${msg.toolArguments!}',
+                    'Args: ${msg.toolArguments}',
                     style: const TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 11,
-                      color: Colors.blue,
+                      color: Colors.amberAccent,
                     ),
                   ),
                 ),
-                const SizedBox(height: 4),
               ],
+            ]
+            // Tool result: show tool output, colored by success
+            else if (isToolRes) ...[
               if (msg.toolResult != null) ...[
                 Container(
                   padding: const EdgeInsets.all(8),
@@ -351,15 +364,19 @@ class SessionDetailScreen extends StatelessWidget {
                   ),
                   child: Text(
                     msg.toolResult!,
+                    maxLines: 30,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 11,
-                      color: msg.toolSuccess == true ? Colors.green : Colors.red,
+                      color: msg.toolSuccess == false ? Colors.red : Colors.green,
                     ),
                   ),
                 ),
               ],
-            ] else ...[
+            ]
+            // User / Assistant text
+            else ...[
               Text(
                 msg.content,
                 style: const TextStyle(fontSize: 14),

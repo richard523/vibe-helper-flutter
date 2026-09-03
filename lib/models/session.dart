@@ -53,6 +53,14 @@ class Session {
     }
   }
 
+  String get formattedDate {
+    final m = startTime.month.toString().padLeft(2, '0');
+    final d = startTime.day.toString().padLeft(2, '0');
+    final h = startTime.hour.toString().padLeft(2, '0');
+    final min = startTime.minute.toString().padLeft(2, '0');
+    return '${startTime.year}-$m-$d $h:$min';
+  }
+
   factory Session.fromJson(Map<String, dynamic> json, {String? directoryPath, List<SessionMessage> messages = const []}) {
     return Session(
       sessionId: json['session_id'] as String,

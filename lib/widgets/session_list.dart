@@ -85,7 +85,7 @@ class SessionListItem extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      session.formattedDuration,
+                      '${session.formattedDate}  -  ${session.formattedDuration}',
                       style: const TextStyle(
                         fontSize: 12,
                         color: Colors.grey,

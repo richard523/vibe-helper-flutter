@@ -1,4 +1,4 @@
-name: flutter_vibe_helper
+name: vibe_cli_dashboard
 description: A cross-platform dashboard for Mistral Vibe CLI analytics
 publish_to: 'none'
 version: 0.1.0+1
@@ -36,4 +36,4 @@ flutter:
   
   assets:
     - assets/
-    - assets/vibe-helper-icon.png
+    - assets/vibe-cli-dashboard-icon.png

@@ -1,7 +1,7 @@
-# Vibe Helper
+# vibe-cli dashboard
 
 <p align="center">
-  <img src="assets/vibe-helper-icon.png" alt="Flutter Vibe Helper Icon" width="200" height="200">
+  <img src="assets/vibe-cli-dashboard-icon.png" alt="vibe-cli dashboard Icon" width="200" height="200">
 </p>
 
 <p align="center">A Flutter-based cross-platform (mobile + desktop + web) dashboard for Mistral Vibe CLI analytics and management.</p>
@@ -48,14 +48,14 @@ flutter build web
 ### Linux (Standalone App)
 
 #### From GitHub Releases
-1. Download `flutter_vibe_helper-linux-x64.tar.gz` from [Releases](https://github.com/richard523/vibe-helper-flutter/releases)
+1. Download `vibe_cli_dashboard-linux-x64.tar.gz` from [Releases](https://github.com/richard523/vibe-helper-flutter/releases)
 2. Extract the archive:
    ```bash
-   tar -xzvf flutter_vibe_helper-linux-x64.tar.gz
+   tar -xzvf vibe_cli_dashboard-linux-x64.tar.gz
    ```
 3. Run the app:
    ```bash
-   cd flutter_vibe_helper
+   cd vibe_cli_dashboard
    ./run.sh
    ```
    Or double-click `run.sh` in your file manager (ensure it has execute permissions).
@@ -63,24 +63,24 @@ flutter build web
 #### Install System-Wide (Optional)
 ```bash
 # Copy to /opt
-sudo cp -r flutter_vibe_helper /opt/
+sudo cp -r vibe_cli_dashboard /opt/
 
 # Install desktop entry for application menu
-sudo cp flutter_vibe_helper/flutter_vibe_helper.desktop /usr/share/applications/
+sudo cp vibe_cli_dashboard/vibe_cli_dashboard.desktop /usr/share/applications/
 
 # Install icon for application menu (optional)
-sudo cp flutter_vibe_helper/icon.png /usr/share/icons/hicolor/256x256/apps/flutter_vibe_helper.png
+sudo cp vibe_cli_dashboard/icon.png /usr/share/icons/hicolor/256x256/apps/vibe_cli_dashboard.png
 
 # Now you can run from terminal or find it in your app menu
-flutter_vibe_helper
+vibe_cli_dashboard
 ```
 
 ### Windows
 
 #### From GitHub Releases
-1. Download `flutter_vibe_helper-windows-x64.zip` from [Releases](https://github.com/richard523/vibe-helper-flutter/releases)
+1. Download `vibe_cli_dashboard-windows-x64.zip` from [Releases](https://github.com/richard523/vibe-helper-flutter/releases)
 2. Extract the ZIP file
-3. Double-click `run.bat` or `flutter_vibe_helper.exe`
+3. Double-click `run.bat` or `vibe_cli_dashboard.exe`
 
 ## Project Structure
 

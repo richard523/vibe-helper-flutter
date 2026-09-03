@@ -62,7 +62,7 @@ class SessionLoader {
         }
       }
 
-      // Sort by startTime descending (newest first)
+      // Sort by startTime descending (reverse chronological: newest first)
       sessions.sort((a, b) => b.startTime.compareTo(a.startTime));
       print('SessionLoader: Loaded ${sessions.length} sessions');
       return sessions;

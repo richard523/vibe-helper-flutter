@@ -10,30 +10,39 @@ import 'screens/session_detail_screen.dart';
 import 'screens/skill_edit_screen.dart';
 
 void main() {
-  print('VibeHelper: Starting app...');
+  print('VibeCliDashboard: Starting app...');
   runApp(
     ChangeNotifierProvider(
       create: (context) => AppState()..loadAll(),
-      child: const VibeHelperApp(),
+      child: const VibeCliDashboardApp(),
     ),
   );
 }
 
-class VibeHelperApp extends StatelessWidget {
-  const VibeHelperApp({super.key});
+class VibeCliDashboardApp extends StatelessWidget {
+  const VibeCliDashboardApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appState = context.watch<AppState>();
     return MaterialApp(
-      title: 'Vibe Helper',
+      title: 'vibe-cli dashboard',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF6B46C1),
+          brightness: Brightness.light,
+        ),
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF6B46C1),
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
       ),
+      themeMode: appState.isLightMode ? ThemeMode.light : ThemeMode.dark,
       home: const MainScreen(),
       routes: {
         '/session': (context) => const SessionDetailScreen(),

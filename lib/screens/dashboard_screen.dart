@@ -20,7 +20,7 @@ class DashboardScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Vibe Helper'),
+        title: const Text('vibe-cli dashboard'),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -43,10 +43,15 @@ class DashboardScreen extends StatelessWidget {
                     const SizedBox(width: 16),
                     const Expanded(flex: 2, child: TimeRangeFilter()),
                     const Spacer(flex: 1),
-                    // Appearance toggle placeholder
+                    // Appearance toggle
                     IconButton(
-                      icon: const Icon(Icons.brightness_6),
-                      onPressed: () {},
+                      icon: Icon(appState.isLightMode
+                          ? Icons.dark_mode
+                          : Icons.light_mode),
+                      onPressed: () => appState.toggleTheme(),
+                      tooltip: appState.isLightMode
+                          ? 'Switch to dark mode'
+                          : 'Switch to light mode',
                     ),
                   ],
                 ),
@@ -56,32 +61,32 @@ class DashboardScreen extends StatelessWidget {
                 const SizedBox(height: 200, child: Center(child: CircularProgressIndicator()))
               else
                 ...[
-                  // Top row: Cost + Tokens (280px height in original)
+                  // Top row: Cost + Tokens
                   Row(
                     children: [
                       Expanded(
                         child: SizedBox(
-                          height: 280,
+                          height: 320,
                           child: CostCard(sessions: filteredSessions),
                         ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
                         child: SizedBox(
-                          height: 280,
+                          height: 320,
                           child: TokenCard(sessions: filteredSessions),
                         ),
                       ),
                     ],
                   ),
 
-                  // Second row: Activity + Tool Usage (280px height in original)
+                  // Second row: Activity + Tool Usage
                   const SizedBox(height: 16),
                   Row(
                     children: [
                       Expanded(
                         child: SizedBox(
-                          height: 280,
+                          height: 320,
                           child: ActivityCard(
                             sessions: filteredSessions,
                             onSessionSelected: (session) {

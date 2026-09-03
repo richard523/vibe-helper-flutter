@@ -123,6 +123,14 @@ class AppState with ChangeNotifier {
     notifyListeners();
   }
 
+  // Theme
+  bool _isLightMode = false;
+  bool get isLightMode => _isLightMode;
+  void toggleTheme() {
+    _isLightMode = !_isLightMode;
+    notifyListeners();
+  }
+
   // Loading state
   bool _isLoading = false;
   bool get isLoading => _isLoading;
