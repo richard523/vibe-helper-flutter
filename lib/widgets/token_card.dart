@@ -75,12 +75,9 @@ class TokenCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            // Token type filter tabs
-            // (For now, just show the chart with both)
-            // TODO: Add filter tabs for Both/Input/Output
             SizedBox(
               height: 180,
-              child: _buildTokenBarChart(),
+              child: _buildCumulativeChart(),
             ),
           ],
         ),
@@ -98,7 +95,7 @@ class TokenCard extends StatelessWidget {
     }
   }
 
-  Widget _buildTokenBarChart() {
+  Widget _buildCumulativeChart() {
     if (sessions.isEmpty) {
       return const Center(
         child: Text(
@@ -108,42 +105,57 @@ class TokenCard extends StatelessWidget {
       );
     }
 
-    // Sort by date
+    // Sort by startTime ascending for cumulative chart
     final sorted = [...sessions]..sort((a, b) => a.startTime.compareTo(b.startTime));
 
-    // One bar per session showing total tokens
     final spots = sorted.asMap().entries.map((e) {
-      final s = sorted[e.key];
-      return BarChartGroupData(
-        x: e.key,
-        barRods: [
-          BarChartRodData(
-            toY: (s.stats.sessionPromptTokens + s.stats.sessionCompletionTokens).toDouble(),
-            width: 16,
-            color: Color(0xFF06B6D4).withOpacity(0.7),
-            borderRadius: BorderRadius.zero,
-          ),
-        ],
-      );
+      final cumulative = sorted.sublist(0, e.key + 1).fold(0, (sum, s) => sum + s.stats.sessionTotalLlmTokens);
+      return FlSpot(e.key.toDouble(), cumulative.toDouble());
     }).toList();
 
-    final rawMaxY = sorted.map((s) => (s.stats.sessionPromptTokens + s.stats.sessionCompletionTokens).toDouble()).reduce((a, b) => a > b ? a : b);
-    final maxY = rawMaxY > 0 ? rawMaxY : 1.0;
+    final maxY = spots.last.y;
 
-    // Show ~4 labels, at least 1 apart
+    // Show ~4 labels
     final labelInterval = sorted.length > 4 ? (sorted.length / 4).ceil() : 1;
 
-    return BarChart(
-      BarChartData(
-        alignment: BarChartAlignment.center,
-        barGroups: spots,
-        barTouchData: BarTouchData(enabled: false),
+    return LineChart(
+      LineChartData(
+        lineBarsData: [
+          LineChartBarData(
+            spots: spots,
+            isCurved: true,
+            color: const Color(0xFF06B6D4),
+            dotData: const FlDotData(show: false),
+            belowBarData: BarAreaData(
+              show: true,
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF06B6D4).withOpacity(0.3),
+                  Color(0xFF06B6D4).withOpacity(0.05),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+        ],
+        borderData: FlBorderData(show: false),
+        gridData: FlGridData(
+          show: true,
+          horizontalInterval: maxY > 1 ? (maxY / 4).ceilToDouble() : 1,
+          drawVerticalLine: false,
+          getDrawingHorizontalLine: (value) => FlLine(
+            color: Colors.grey.withOpacity(0.2),
+            strokeWidth: 0.5,
+            dashArray: [4],
+          ),
+        ),
         titlesData: FlTitlesData(
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 40,
-              interval: (maxY / 4).ceilToDouble(),
+              interval: maxY > 1 ? (maxY / 4).ceilToDouble() : 1,
               getTitlesWidget: (value, meta) {
                 if (value == meta.max || value == meta.min) return const SizedBox();
                 return Text(
@@ -177,19 +189,10 @@ class TokenCard extends StatelessWidget {
           topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
           rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
         ),
-        borderData: FlBorderData(show: false),
-        gridData: FlGridData(
-          show: true,
-          horizontalInterval: maxY > 0 ? (maxY / 4).ceilToDouble() : 1,
-          drawVerticalLine: false,
-          getDrawingHorizontalLine: (value) => FlLine(
-            color: Colors.grey.withOpacity(0.2),
-            strokeWidth: 0.5,
-            dashArray: [4],
-          ),
-        ),
+        minX: 0,
+        maxX: spots.isNotEmpty ? spots.last.x : 1,
         minY: 0,
-        maxY: maxY * 1.1,
+        maxY: maxY + (maxY * 0.1),
       ),
     );
   }
