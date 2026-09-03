@@ -23,16 +23,25 @@ class VibeCliDashboardApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appState = context.watch<AppState>();
     return MaterialApp(
       title: 'vibe-cli dashboard',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF6B46C1),
+          brightness: Brightness.light,
+        ),
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF6B46C1),
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
       ),
+      themeMode: appState.isLightMode ? ThemeMode.light : ThemeMode.dark,
       home: const MainScreen(),
       routes: {
         '/session': (context) => const SessionDetailScreen(),

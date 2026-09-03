@@ -43,10 +43,15 @@ class DashboardScreen extends StatelessWidget {
                     const SizedBox(width: 16),
                     const Expanded(flex: 2, child: TimeRangeFilter()),
                     const Spacer(flex: 1),
-                    // Appearance toggle placeholder
+                    // Appearance toggle
                     IconButton(
-                      icon: const Icon(Icons.brightness_6),
-                      onPressed: () {},
+                      icon: Icon(appState.isLightMode
+                          ? Icons.dark_mode
+                          : Icons.light_mode),
+                      onPressed: () => appState.toggleTheme(),
+                      tooltip: appState.isLightMode
+                          ? 'Switch to dark mode'
+                          : 'Switch to light mode',
                     ),
                   ],
                 ),
