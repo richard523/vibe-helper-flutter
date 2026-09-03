@@ -143,10 +143,14 @@ class TokenCard extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 40,
-              getTitlesWidget: (value, meta) => Text(
-                _formatTokens(value.toInt()),
-                style: const TextStyle(fontSize: 10, color: Colors.grey),
-              ),
+              interval: (maxY / 4).ceilToDouble(),
+              getTitlesWidget: (value, meta) {
+                if (value == meta.max || value == meta.min) return const SizedBox();
+                return Text(
+                  _formatTokens(value.toInt()),
+                  style: const TextStyle(fontSize: 10, color: Colors.grey),
+                );
+              },
             ),
           ),
           bottomTitles: AxisTitles(
