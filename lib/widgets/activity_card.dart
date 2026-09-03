@@ -26,12 +26,12 @@ class ActivityCard extends StatelessWidget {
     // Sort sessions by startTime descending (newest first) to ensure most recent appears correctly
     final sortedSessions = [...sessions]..sort((a, b) => b.startTime.compareTo(a.startTime));
     
-    // Group sessions by date (UTC) for first-session lookup
+    // Group sessions by date (UTC) - pick most expensive session per day
     final sessionsByDate = <DateTime, Session>{};
     for (final session in sortedSessions) {
       final dateKey = DateTime.utc(session.startTime.year, session.startTime.month, session.startTime.day);
-      // Keep the first (newest) session for each date
-      if (!sessionsByDate.containsKey(dateKey)) {
+      final existing = sessionsByDate[dateKey];
+      if (existing == null || session.stats.sessionCost > existing.stats.sessionCost) {
         sessionsByDate[dateKey] = session;
       }
     }
@@ -208,29 +208,49 @@ class ActivityCard extends StatelessWidget {
           return Container(width: 14, height: 14);
         }
         
-        // Find first session for this date
+        // Find most expensive session for this date
         final session = cell.date != null ? sessionsByDate[cell.date] : null;
+        final dateLabel = cell.date != null
+            ? '${cell.date!.year}-${cell.date!.month.toString().padLeft(2, '0')}-${cell.date!.day.toString().padLeft(2, '0')}'
+            : '';
+        final costLabel = session != null
+            ? '\$${session.stats.sessionCost.toStringAsFixed(2)}'
+            : '';
+        final tooltip = session != null
+            ? '$dateLabel\nMost expensive: $costLabel\n${cell.count} session${cell.count > 1 ? 's' : ''} — click to view'
+            : '$dateLabel\nNo sessions';
         
         if (session != null && onSessionSelected != null) {
-          return GestureDetector(
-            onTap: () => onSessionSelected(session),
-            child: Container(
-              width: 14,
-              height: 14,
-              decoration: BoxDecoration(
-                color: _colorForCount(cell.count),
-                borderRadius: BorderRadius.circular(2),
+          return MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: Tooltip(
+              message: tooltip,
+              waitDuration: const Duration(milliseconds: 200),
+              child: GestureDetector(
+                onTap: () => onSessionSelected(session),
+                child: Container(
+                  width: 14,
+                  height: 14,
+                  decoration: BoxDecoration(
+                    color: _colorForCount(cell.count),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
               ),
             ),
           );
         }
         
-        return Container(
-          width: 14,
-          height: 14,
-          decoration: BoxDecoration(
-            color: _colorForCount(cell.count),
-            borderRadius: BorderRadius.circular(2),
+        return Tooltip(
+          message: tooltip,
+          waitDuration: const Duration(milliseconds: 200),
+          child: Container(
+            width: 14,
+            height: 14,
+            decoration: BoxDecoration(
+              color: _colorForCount(cell.count),
+              borderRadius: BorderRadius.circular(2),
+            ),
           ),
         );
       }).toList(),
