@@ -56,32 +56,32 @@ class DashboardScreen extends StatelessWidget {
                 const SizedBox(height: 200, child: Center(child: CircularProgressIndicator()))
               else
                 ...[
-                  // Top row: Cost + Tokens (280px height in original)
+                  // Top row: Cost + Tokens
                   Row(
                     children: [
                       Expanded(
                         child: SizedBox(
-                          height: 280,
+                          height: 320,
                           child: CostCard(sessions: filteredSessions),
                         ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
                         child: SizedBox(
-                          height: 280,
+                          height: 320,
                           child: TokenCard(sessions: filteredSessions),
                         ),
                       ),
                     ],
                   ),
 
-                  // Second row: Activity + Tool Usage (280px height in original)
+                  // Second row: Activity + Tool Usage
                   const SizedBox(height: 16),
                   Row(
                     children: [
                       Expanded(
                         child: SizedBox(
-                          height: 280,
+                          height: 320,
                           child: ActivityCard(
                             sessions: filteredSessions,
                             onSessionSelected: (session) {

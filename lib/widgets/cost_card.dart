@@ -71,11 +71,9 @@ class CostCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             // Cumulative cost chart - fixed height
-            Flexible(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 180),
-                child: _buildCumulativeChart(),
-              ),
+            SizedBox(
+              height: 180,
+              child: _buildCumulativeChart(),
             ),
           ],
         ),
